@@ -2,6 +2,9 @@
 
 using namespace std;
 #include "commun.h"
+#include "Node.h"
+#include "NodeList.h"
+#include "Data.h"
 #include <iostream>
 
 int yywrap(void);
