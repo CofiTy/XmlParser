@@ -19,3 +19,9 @@ la ligne "yydebug = 1;" dans le fichier dtd.y.
 
 A terme, le code de la fonction principale (main) devra être sorti de dtd.y afin de rendre
 l'analyseur plus modulaire.
+
+
+
+
+http://en.wikipedia.org/wiki/Document_Type_Definition#Element_type_declarations
+http://es.wikipedia.org/wiki/Definici%C3%B3n_de_tipo_de_documento
