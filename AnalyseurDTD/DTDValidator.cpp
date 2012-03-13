@@ -24,6 +24,3 @@ void DTDValidator::addNode(DTDNode* node){
 	this->nodes.push_back(node);			
 }
 
-int main(){
-
-}
