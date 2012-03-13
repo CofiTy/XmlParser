@@ -1,4 +1,8 @@
 %{
+using namespace std;
+#include <iostream>
+#include "DTDNode.h"
+#include "DTDValidator.h"
 
 void yyerror(char *msg);
 int yywrap(void);
@@ -7,13 +11,17 @@ int yylex(void);
 
 %union { 
    char *s; 
+   DTDParser* nodes;
+   DTDNode* node;
+   
+   
    }
 
 %token ELEMENT ATTLIST CLOSE OPENPAR CLOSEPAR COMMA PIPE FIXED EMPTY ANY PCDATA AST QMARK PLUS CDATA
 %token <s> IDENT TOKENTYPE DECLARATION STRING
 %%
 
-main: dtd_element_opt;
+main: dtd_element_opt {cout<<"OK C'EST BON\n"};
 
 dtd_element_opt: dtd_element_opt ELEMENT IDENT cp CLOSE
 |/*empty*/
@@ -91,7 +99,7 @@ int main(int argc, char **argv)
 {
   int err;
 
-  yydebug = 1; // pour désactiver l'affichage de l'exécution du parser LALR, commenter cette ligne
+//  yydebug = 1; // pour désactiver l'affichage de l'exécution du parser LALR, commenter cette ligne
 
   err = yyparse();
   if (err != 0) printf("Parse ended with %d error(s)\n", err);

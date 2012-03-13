@@ -1,28 +1,30 @@
 /* 
- * File:   DTDParser.h
+ * File:   DTDValidator.h
  * Author: jonas
  *
  * Created on 13 mars 2012, 10:04
  */
 
-#ifndef DTDPARSER_H
-#define	DTDPARSER_H
+#ifndef DTDVALIDATOR_H
+#define	DTDVALIDATOR_H
 
 #include <list>
 
 #include "DTDNode.h"
 
-class DTDParser {
+class DTDValidator {
 public:
-    DTDParser();
-    DTDParser(const DTDParser& orig);
-    virtual ~DTDParser();
+    DTDValidator();
+    DTDValidator(const DTDValidator& orig);
+    virtual ~DTDValidator();
 
     bool validate();
+
+    void addNode(DTDNode* node);
 private:
-    std::list<DTDNode> nodes;
+    std::list<DTDNode*> nodes;
 };
 
-#endif	/* DTDPARSER_H */
+#endif	/* DTDVALIDATOR_H */
 
 
