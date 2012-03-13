@@ -13,12 +13,39 @@ int yylex(void);
 %token <s> IDENT TOKENTYPE DECLARATION STRING
 %%
 
-main: dtd_list_opt 
-    ;
+main: dtd_element_opt;
+
+dtd_element_opt: dtd_element_opt ELEMENT IDENT cp CLOSE
+|/*empty*/
+|dtd_list_opt
+;
+
+cp: item card_opt;
+
+item: IDENT | PCDATA | children;
+
+children: choice_card | seq_card;
+
+choice_card: choice card_opt;
+
+seq_card: seq card_opt;
+
+card_opt: QMARK | PLUS | AST | /*empty*/;
+
+choice: OPENPAR choice_list_plus CLOSEPAR;
+choice_list_plus: cp PIPE choice_list;
+choice_list: choice_list PIPE cp | cp;
+
+seq: OPENPAR seq_list CLOSEPAR;
+seq_list: seq_list COMMA cp | cp;
+
+
+
 
 dtd_list_opt
 : dtd_list_opt ATTLIST IDENT att_definition_opt CLOSE            
 | /* empty */                     
+|dtd_element_opt
 ;
 
 
