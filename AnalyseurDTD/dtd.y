@@ -1,34 +1,28 @@
 %{
 #define YYSTYPE double
 #include <iostream>
-#include "DTDNode.h"
-#include "DTDValidator.h"
+#include "userClass.h"
 
 void yyerror(char *msg);
 int yywrap(void);
 int yylex(void);
-struct symrec
-{
-   DTDValidator *validator;
-   DTDNode *node;
-};
 
 %}
 
 %union { 
    char *s; 
-   struct symrec *d;
+   DTDValidator * v;
+   DTDNode * n;
    }
 
 %token ELEMENT ATTLIST CLOSE OPENPAR CLOSEPAR COMMA PIPE FIXED EMPTY ANY PCDATA AST QMARK PLUS CDATA
 %token <s> IDENT TOKENTYPE DECLARATION STRING
-%type <d> main
+%type <v> main
 %%
 
-main: dtd_element_opt {std::cout<<"OK C'EST BON\n"};
+main: dtd_element_opt {std::cout<<"OK C'EST BON\n";};
 
 dtd_element_opt: dtd_element_opt ELEMENT IDENT cp CLOSE
-|/*empty*/
 |dtd_list_opt
 ;
 
