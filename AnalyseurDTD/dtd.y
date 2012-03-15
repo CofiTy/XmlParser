@@ -17,13 +17,18 @@ int yylex(void);
 
 %token ELEMENT ATTLIST CLOSE OPENPAR CLOSEPAR COMMA PIPE FIXED EMPTY ANY PCDATA AST QMARK PLUS CDATA
 %token <s> IDENT TOKENTYPE DECLARATION STRING
-%type <v> main
 %%
 
-main: dtd_element_opt {std::cout<<"OK C'EST BON\n";};
 
-dtd_element_opt: dtd_element_opt ELEMENT IDENT cp CLOSE
-|dtd_list_opt
+main: dtd_list_opt;
+
+dtd_list_opt: dtd_list_opt dtd_element | dtd_list_opt dtd_attlist | ;
+
+dtd_element
+: ELEMENT IDENT cp CLOSE 
+;
+dtd_attlist
+: ATTLIST IDENT att_definition_opt CLOSE         
 ;
 
 cp: item card_opt;
@@ -44,15 +49,6 @@ choice_list: choice_list PIPE cp | cp;
 
 seq: OPENPAR seq_list CLOSEPAR;
 seq_list: seq_list COMMA cp | cp;
-
-
-
-
-dtd_list_opt
-: dtd_list_opt ATTLIST IDENT att_definition_opt CLOSE            
-| /* empty */                     
-|dtd_element_opt
-;
 
 
 att_definition_opt
