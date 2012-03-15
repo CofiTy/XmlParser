@@ -2,6 +2,9 @@
 #define COMMUN_H
 
 using namespace std;
+#include "Node.h"
+#include "NodeList.h"
+#include "Data.h"
 #include <list>
 #include <utility>
 #include <string>
