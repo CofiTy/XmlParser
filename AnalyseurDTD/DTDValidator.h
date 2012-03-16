@@ -9,8 +9,13 @@
 #define	DTDVALIDATOR_H
 
 #include <list>
+#include <string>
+#include <map>
 
 #include "DTDNode.h"
+#include "../AnalyseurXML/NodeList.h"
+
+using namespace std;
 
 class DTDValidator {
 public:
@@ -18,11 +23,16 @@ public:
     DTDValidator(const DTDValidator& orig);
     virtual ~DTDValidator();
 
-    bool validate();
-
+    bool validate(NodeList & node);
+    
     void addNode(DTDNode* node);
+    
+    void addAttribute(string node, string attribute);
+
 private:
-    std::list<DTDNode*> nodes;
+    list<DTDNode*> nodes;
+    multimap<string, string> attributes;
+
 };
 
 #endif	/* DTDVALIDATOR_H */
