@@ -14,12 +14,13 @@ public:
   std::string tagName;
   std::string nameSpace;
   std::map<std::string, std::string> attributes;
-  std::list<Node> childNodeList;
+  std::list<Node*> childNodeList;
   
   std::string getChildNodesString();
   std::list<std::string> getAttributesList();
   void addAttribute(std::string key, std::string value);
-  void appendChild(Node & node);
+  void appendChild(Node * node);
+  std::string toString();
 };
 
 #endif
