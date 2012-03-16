@@ -21,9 +21,14 @@ bool DTDValidator::validate(){
 }
 
 void DTDValidator::addNode(DTDNode* node){
+<<<<<<< HEAD
 
 }
 
 int main(){
 
+=======
+	this->nodes.push_back(node);			
+>>>>>>> 3e02ba7d6752ce90d84e0379e67add2289de972e
 }
+

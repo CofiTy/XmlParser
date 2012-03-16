@@ -3,6 +3,7 @@
 %{
 #include <ctype.h>
 #include <string.h>
+#include "userClass.h"
 #include "yy.tab.h"
 
 static char* skipSpace(char *s) {

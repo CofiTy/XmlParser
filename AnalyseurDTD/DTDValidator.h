@@ -1,5 +1,5 @@
 /* 
- * File:   DTDParser.h
+ * File:   DTDValidator.h
  * Author: jonas
  *
  * Created on 13 mars 2012, 10:04
@@ -29,6 +29,7 @@ public:
 private:
     std::list<DTDNode*> nodes;
     std::multimap<std::string, std::string> attributes;
+
 };
 
 #endif	/* DTDVALIDATOR_H */

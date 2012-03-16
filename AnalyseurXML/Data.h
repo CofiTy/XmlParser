@@ -7,6 +7,8 @@ class Data : public Node
 {
 public:
   std::string value;
+
+  std::string toString();
 };
 
 #endif
