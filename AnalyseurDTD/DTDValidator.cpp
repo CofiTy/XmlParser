@@ -1,23 +1,27 @@
 /* 
- * File:   DTDParser.cpp
+ * File:   DTDValidator.cpp
  * Author: jonas
  * 
  * Created on 13 mars 2012, 10:04
  */
 
-#include "DTDParser.h"
+#include "DTDValidator.h"
 
-DTDParser::DTDParser() {
+DTDValidator::DTDValidator() {
 }
 
-DTDParser::DTDParser(const DTDParser& orig) {
+DTDValidator::DTDValidator(const DTDValidator& orig) {
 }
 
-DTDParser::~DTDParser() {
+DTDValidator::~DTDValidator() {
 }
 
-bool DTDParser::validate(){
+bool DTDValidator::validate(){
 	
+}
+
+void DTDValidator::addNode(DTDNode* node){
+
 }
 
 int main(){
