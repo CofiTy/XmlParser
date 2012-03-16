@@ -1,5 +1,5 @@
-#ifndef H_DATA
-#define H_DATA
+#ifndef H_DOCUMENT_XML
+#define H_DOCUMENT_XML
 
 #include <string>
 
