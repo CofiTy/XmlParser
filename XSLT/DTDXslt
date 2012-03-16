@@ -1,0 +1,40 @@
+<!ENTITY % instructions "
+  | xsl:apply-templates
+  | xsl:value-of
+">
+
+<!ENTITY % template "
+ (#PCDATA
+  %instructions;)*
+">
+
+<!ENTITY % top-level "
+  (xsl:template;)*
+">
+
+<!ENTITY % top-level-atts '
+  version NMTOKEN #REQUIRED
+  xmlns:xsl CDATA #FIXED "http://www.w3.org/1999/XSL/Transform";
+'>
+
+<!-- This entity is defined for use in the ATTLIST declaration
+for result elements. -->
+
+<!ELEMENT xsl:stylesheet %top-level;>
+<!ATTLIST xsl:stylesheet %top-level-atts;>
+
+<!ELEMENT xsl:template
+ (#PCDATA
+  %instructions;)*
+>
+<!ATTLIST xsl:template
+  match CDATA; #IMPLIED
+>
+
+<!ELEMENT xsl:value-of EMPTY>
+<!ATTLIST xsl:value-of
+  select CDATA; #REQUIRED
+  disable-output-escaping (yes|no) "no"
+>
+
+<!ELEMENT xsl:apply-templates EMPTY>
