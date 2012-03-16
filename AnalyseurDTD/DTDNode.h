@@ -10,6 +10,7 @@
 
 #include <string>
 #include <list>
+#include <boost/regex.hpp> 
 
 class DTDNode {
 public:
@@ -18,9 +19,13 @@ public:
     virtual ~DTDNode();
 
     std::string tagName;
-    std::string regExpChildNodes;
     std::list<std::string> attributes;
+    
+    bool validateChildString(std::string childString);
+    void setRegExpChildNodes(std::string regExpChildNodes);
 private:
+
+    //boost::regex regExpChildNodes;
 
 };
 
