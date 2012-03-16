@@ -13,6 +13,9 @@
 #include <map>
 
 #include "DTDNode.h"
+#include "../AnalyseurXML/NodeList.h"
+
+using namespace std;
 
 class DTDValidator {
 public:
@@ -20,15 +23,15 @@ public:
     DTDValidator(const DTDValidator& orig);
     virtual ~DTDValidator();
 
-    bool validate();
+    bool validate(NodeList & node);
     
     void addNode(DTDNode* node);
     
-    void addAttribute(std::string node, std::string attribute);
+    void addAttribute(string node, string attribute);
 
 private:
-    std::list<DTDNode*> nodes;
-    std::multimap<std::string, std::string> attributes;
+    list<DTDNode*> nodes;
+    multimap<string, string> attributes;
 
 };
 
