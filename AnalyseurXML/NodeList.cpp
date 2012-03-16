@@ -7,11 +7,15 @@ using namespace std;
 
 string NodeList::getChildNodesString()
 {
-  /*list<Node>::iterator iter = childNodeList.begin();
+  stringstream out;
 
-  for(;iter != childNodeList.end(); iter++){
-    
-  }*/ 
+  //print all child nodes
+  list<Node*>::iterator childIt = childNodeList.begin();
+  for(;childIt != childNodeList.end(); childIt++){
+    out << " " << (*childIt)->tagName;
+  }
+
+  return out.str();
 }
 
 list<string> NodeList::getAttributesList()
