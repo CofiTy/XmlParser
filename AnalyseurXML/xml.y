@@ -12,10 +12,10 @@ int yylex(void);
 
 %union {
    char * s;
-   NodeList* nl;
-   Data* d;
-   list<Node>* listN;
-   map<string,string> map;
+   NodeList * nl;
+   Data * d;
+   list<Node> * listN;
+   map<string,string> * m;
    ElementName * en;  /* le nom d'un element avec son namespace */
 }
 
@@ -23,7 +23,7 @@ int yylex(void);
 %token <s> ENCODING STRING DATA COMMENT IDENT NSIDENT
 %token <en> NSSTART START STARTSPECIAL END NSEND
 %type <nl> xml_element start
-%type <map> attributs_opt
+%type <m> attributs_opt
 %type <listN> content_opt close_content_and_end empty_or_content
 
 %%
@@ -49,27 +49,27 @@ declaration
  ;
 
 xml_element
- : start attributs_opt empty_or_content {$$ = $1; $$->attributes = *$2; $$->childNodes = *$3;}
+ : start attributs_opt empty_or_content {$$ = $1; $$->attributes = *$2; $$->childNodeList = *$3;}
  ;
 start
- : START		{$$ = new NodeList(); $$->tagName = $1->second; $$->namespace = $1->first;}
- | NSSTART	{$$ = new NodeList(); $$->tagName = $1->second; $$->namespace = $1->first;}
+ : START		{$$ = new NodeList(); $$->tagName = $1->second; $$->nameSpace = $1->first;}
+ | NSSTART	{$$ = new NodeList(); $$->tagName = $1->second; $$->nameSpace = $1->first;}
  ;
 empty_or_content
- : SLASH CLOSE
- | close_content_and_end CLOSE {$$ = $1}
+ : SLASH CLOSE {$$ = NULL;}
+ | close_content_and_end CLOSE {$$ = $1;}
  ;
 close_content_and_end
- : CLOSE	content_opt END {$$ = $2}
+ : CLOSE	content_opt END {$$ = $2;}
  ;
 attributs_opt
  : attributs_opt IDENT EQ STRING {$$ = $1; (*$$)[$2] = $4;}
  | /*empty*/ {$$ = new map<string,string>;}
  ;
 content_opt 
- : content_opt DATA    {$$ = $1; Data temp = new Data; temp->value = string($2); $$->push_back(*((Node)temp)); free($2);} //TODO: Check cast
+ : content_opt DATA    {$$ = $1; Data* temp = new Data; temp->value = string($2); $$->push_back((Node)(*temp)); free($2);} //TODO: Check cast
  | content_opt comment
- | content_opt xml_element  {$$ = $1; $$->childNodes.push_back($2);} //TODO: cast?
+ | content_opt xml_element  {$$ = $1; $$->push_back(*$2);} //TODO: cast?
  | /*empty*/ {$$ = new list<Node>;}
  ;
 %%

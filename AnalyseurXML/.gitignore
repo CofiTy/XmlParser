@@ -1,5 +1,5 @@
 analyseXML
-lex.yy.c
+lex.xml.c
 xml.output
 xml.tab.c
-yy.tab.h
+xml.tab.h

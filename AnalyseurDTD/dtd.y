@@ -1,23 +1,34 @@
 %{
+#define YYSTYPE double
+#include <iostream>
+#include "userClass.h"
 
 void yyerror(char *msg);
 int yywrap(void);
 int yylex(void);
+
 %}
 
 %union { 
    char *s; 
+   DTDValidator * v;
+   DTDNode * n;
    }
 
 %token ELEMENT ATTLIST CLOSE OPENPAR CLOSEPAR COMMA PIPE FIXED EMPTY ANY PCDATA AST QMARK PLUS CDATA
 %token <s> IDENT TOKENTYPE DECLARATION STRING
 %%
 
-main: dtd_element_opt;
 
-dtd_element_opt: dtd_element_opt ELEMENT IDENT cp CLOSE
-|/*empty*/
-|dtd_list_opt
+main: dtd_list_opt;
+
+dtd_list_opt: dtd_list_opt dtd_element | dtd_list_opt dtd_attlist | ;
+
+dtd_element
+: ELEMENT IDENT cp CLOSE 
+;
+dtd_attlist
+: ATTLIST IDENT att_definition_opt CLOSE         
 ;
 
 cp: item card_opt;
@@ -38,15 +49,6 @@ choice_list: choice_list PIPE cp | cp;
 
 seq: OPENPAR seq_list CLOSEPAR;
 seq_list: seq_list COMMA cp | cp;
-
-
-
-
-dtd_list_opt
-: dtd_list_opt ATTLIST IDENT att_definition_opt CLOSE            
-| /* empty */                     
-|dtd_element_opt
-;
 
 
 att_definition_opt
@@ -91,7 +93,7 @@ int main(int argc, char **argv)
 {
   int err;
 
-  yydebug = 1; // pour désactiver l'affichage de l'exécution du parser LALR, commenter cette ligne
+//  yydebug = 1; // pour désactiver l'affichage de l'exécution du parser LALR, commenter cette ligne
 
   err = yyparse();
   if (err != 0) printf("Parse ended with %d error(s)\n", err);
