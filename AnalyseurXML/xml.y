@@ -49,11 +49,11 @@ declaration
  ;
 
 xml_element
- : start attributs_opt empty_or_content {$$ = $1; $$->attributes = *$2; $$->childNodes = *$3;}
+ : start attributs_opt empty_or_content {$$ = $1; $$->attributes = *$2; $$->childNodeList = *$3;}
  ;
 start
- : START		{$$ = new NodeList(); $$->tagName = $1->second; $$->namespace = $1->first;}
- | NSSTART	{$$ = new NodeList(); $$->tagName = $1->second; $$->namespace = $1->first;}
+ : START		{$$ = new NodeList(); $$->tagName = $1->second; $$->nameSpace = $1->first;}
+ | NSSTART	{$$ = new NodeList(); $$->tagName = $1->second; $$->nameSpace = $1->first;}
  ;
 empty_or_content
  : SLASH CLOSE {$$ = NULL;}
@@ -69,7 +69,7 @@ attributs_opt
 content_opt 
  : content_opt DATA    {$$ = $1; Data* temp = new Data; temp->value = string($2); $$->push_back((Node)(*temp)); free($2);} //TODO: Check cast
  | content_opt comment
- | content_opt xml_element  {$$ = $1; $$->childNodes.push_back($2);} //TODO: cast?
+ | content_opt xml_element  {$$ = $1; $$->push_back(*$2);} //TODO: cast?
  | /*empty*/ {$$ = new list<Node>;}
  ;
 %%
