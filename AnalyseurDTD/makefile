@@ -1,4 +1,7 @@
-all: analyseDTD
+EXEC=analyseDTD
+
+all: $(EXEC)
+
 analyseDTD: *.l *.y makefile
 	flex dtd.l
 	bison --debug --verbose --defines=yy.tab.h dtd.y
