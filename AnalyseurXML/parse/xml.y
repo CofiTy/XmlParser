@@ -1,10 +1,10 @@
 %{
 
 using namespace std;
-#include "commun.h"
+#include "../src/commun.h"
 #include <iostream>
 
-int yywrap(void);
+//int yywrap(void);
 void yyerror(char *msg);
 int yylex(void);
 
@@ -33,7 +33,7 @@ int yylex(void);
 %%
 
 document
- : declarations_opt xml_element misc_seq_opt {$$ = new DocumentXML; $$->rootNode = *$2; $$->dtd = *$1; cout << $2->toString() << endl; free($1)} 
+ : declarations_opt xml_element misc_seq_opt {$$ = new DocumentXML; $$->rootNode = *$2; $$->dtd = *$1; cout << $2->toString() << endl; free($1);} 
  ;
 misc_seq_opt
  : misc_seq_opt comment
@@ -80,34 +80,32 @@ content_opt
 
 void xmlrestart(FILE * );
 
-int main(int argc, char **argv)
+int parseXMLFile(char* file)
 {
   int err;
-
+  
   //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
-  if(argc == 2)
+  printf("Trying to Parse %s\n", file);
+  FILE * f;
+  if((f = fopen(file, "r")) == NULL)
   {
-    char * file = argv[1];
-    printf("Trying to Parse %s\n", file);
-    FILE * f;
-    if((f = fopen(file, "r")) == NULL)
-    {
-      fprintf(stderr, "ERROR: No file named %s\n", file);
-    }
-    xmlrestart(f);
-    err = xmlparse();
-    fclose(f);
-  
-    if (err != 0) printf("Parse ended with %d error(s)\n", err);
-  	  else  printf("Parse ended with success\n", err);
+    fprintf(stderr, "ERROR: No file named %s\n", file);
   }
-  return 0;
+  xmlrestart(f);
+  err = xmlparse();
+  fclose(f);
+  
+  if (err != 0) printf("Parse ended with %d error(s)\n", err);
+    else  printf("Parse ended with success\n");
+  
+  return err;
 }
-int yywrap(void)
+
+/*int yywrap(void)
 {
   return 1;
-}
+}*/
 
 void yyerror(char *msg)
 {

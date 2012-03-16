@@ -13,7 +13,7 @@
 #include <map>
 
 #include "DTDNode.h"
-#include "../AnalyseurXML/NodeList.h"
+#include "../../AnalyseurXML/src/NodeList.h"
 
 using namespace std;
 

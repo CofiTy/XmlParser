@@ -2,7 +2,7 @@
 %option noyywrap
 
 %{
-#include "commun.h"
+#include "../src/commun.h"
 #include "xml.tab.h"
 
 static char* skipSpace(char *s) {
@@ -50,7 +50,7 @@ static char * nameSpace(char *s)  /* extrait la première partie, l'espace de no
 
 static char *split_namespace(char *s) { /* extrait la deuxième partie après l'espace de nom */
    char *name;
-   int i,k;
+   int i;
    for (i=0;s[i]!=':';i++) ;
    i++;
    name = (char*) malloc((strlen(s+i)+1)*sizeof(char));
