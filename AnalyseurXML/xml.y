@@ -14,7 +14,7 @@ int yylex(void);
    char * s;
    NodeList * nl;
    Data * d;
-   list<Node> * listN;
+   list<Node*> * listN;
    map<string,string> * m;
    ElementName * en;  /* le nom d'un element avec son namespace */
 }
@@ -22,14 +22,14 @@ int yylex(void);
 %token EQ SLASH CLOSE CLOSESPECIAL DOCTYPE
 %token <s> ENCODING STRING DATA COMMENT IDENT NSIDENT
 %token <en> NSSTART START STARTSPECIAL END NSEND
-%type <nl> xml_element start
+%type <nl> xml_element start document
 %type <m> attributs_opt
 %type <listN> content_opt close_content_and_end empty_or_content
 
 %%
 
 document
- : declarations_opt xml_element misc_seq_opt 
+ : declarations_opt xml_element misc_seq_opt {$$ = $2; cout << $$->toString() << endl;} 
  ;
 misc_seq_opt
  : misc_seq_opt comment
@@ -67,10 +67,10 @@ attributs_opt
  | /*empty*/ {$$ = new map<string,string>;}
  ;
 content_opt 
- : content_opt DATA    {$$ = $1; Data* temp = new Data; temp->value = string($2); $$->push_back((Node)(*temp)); free($2);} //TODO: Check cast
+ : content_opt DATA    {$$ = $1; Data* temp = new Data; temp->value = string($2); $$->push_back((Node*)temp); free($2);} //TODO: Check cast
  | content_opt comment
- | content_opt xml_element  {$$ = $1; $$->push_back(*$2);} //TODO: cast?
- | /*empty*/ {$$ = new list<Node>;}
+ | content_opt xml_element  {$$ = $1; $$->push_back($2);} //TODO: cast?
+ | /*empty*/ {$$ = new list<Node*>;}
  ;
 %%
 
