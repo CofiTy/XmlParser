@@ -14,30 +14,29 @@ int yylex(void);
    DTDValidator * v;
    DTDNode * n;
    std::string * st;
-   list<string> * ls;
+   std::list<std::string> * ls;
    }
 
 %token ELEMENT ATTLIST CLOSE OPENPAR CLOSEPAR COMMA PIPE FIXED EMPTY ANY PCDATA AST QMARK PLUS CDATA
 %token <s> IDENT TOKENTYPE DECLARATION STRING
-%type <st> attribute att_type default_declaration enumerate enum_list_plus enum_list item_enum
-%type <v> dtd_list_opt
-%type <n> dtd_element dtd_attlist 
-%type <ls> att_definition_opt 
+%type <st> attribute 
+%type <ls> att_definition_opt
+
 %%
 
 
 main:  dtd_list_opt ;
 
 dtd_list_opt
-: dtd_element dtd_list_opt {$$ = $2; $$->addNode($1);}
-| dtd_attlist dtd_list_opt {$$ = $2; $$->addNode($1);} 
-| {$$ = new DTDValidator();} ;
+: dtd_element dtd_list_opt 
+| dtd_attlist dtd_list_opt {/*$$ = $2; $$->addNode($1);*/} 
+| {/*$$ = new DTDValidator();*/} ;
 
 dtd_element
-: ELEMENT IDENT cp CLOSE { $$ = new DTDNode(); }
+: ELEMENT IDENT cp CLOSE 
 ;
 dtd_attlist
-: ATTLIST IDENT att_definition_opt CLOSE { $$ = new DTDNode(); $$->tagName = new string($2); $$->attributes = $3;}
+: ATTLIST IDENT att_definition_opt CLOSE {cout <<"NEW ATTLIS "<<$2<<" "<<$3->front()<<"\n";}
 ;
 
 cp: item card_opt;
@@ -61,41 +60,41 @@ seq_list: seq_list COMMA cp | cp;
 
 
 att_definition_opt
-: att_definition_opt attribute { $$ = $1; $$->push_back(*$2);}
-| /* empty */ {$$ = new list<string>();}
+: att_definition_opt attribute { $$->push_back(*$2);}
+| /* empty */ {$$ = new std::list<std::string>();}
 ;
 
 attribute
-: IDENT att_type default_declaration { $$ = new string($1); $$->append(*$2); $$->append(*$3);}
+: IDENT att_type default_declaration { $$ = new string($1);}
 ;
 
 att_type
-: CDATA   {$$ = new string(" #CDATA ");}
-| TOKENTYPE {$$ = new string($1);}
-| enumerate {$$ = $1;}
+: CDATA   
+| TOKENTYPE
+| enumerate
 ;
 
 enumerate
-: OPENPAR enum_list_plus CLOSEPAR { $$ = new string("( "); $$->append(*$2); $$.append(" )");}
+: OPENPAR enum_list_plus CLOSEPAR
 ;
 
 enum_list_plus
-: enum_list PIPE item_enum {$$ = $1; $$->append(" | "); $$->append(*$3);}
+: enum_list PIPE item_enum 
 ;
 
 enum_list
-: item_enum { $$ = $1;}
-| enum_list PIPE item_enum { $$ = $1; $$->append(" | "); $$->append(*$3);}
+: item_enum 
+| enum_list PIPE item_enum 
 ;
 
 item_enum
-: IDENT { $$ = new string($1);}
+: IDENT 
 ;
 
 default_declaration
-: DECLARATION { $$ = new string($1);}
-| STRING { $$ = new string($1);}
-| FIXED STRING { $$ = new string("#FIXED "); $$->append($2);}
+: DECLARATION 
+| STRING
+| FIXED STRING 
  
 ;
 %%
