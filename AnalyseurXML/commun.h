@@ -5,6 +5,7 @@ using namespace std;
 #include "Node.h"
 #include "NodeList.h"
 #include "Data.h"
+#include "DocumentXML.h"
 #include <list>
 #include <utility>
 #include <string>
