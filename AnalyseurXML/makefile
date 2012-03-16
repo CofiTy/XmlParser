@@ -1,4 +1,7 @@
-all: analyseXML
+EXEC=analyseXML
+
+all: $(EXEC)
+
 analyseXML: *.l *.y makefile
 	flex -Pxml xml.l
 	bison -p xml --debug --verbose --defines=xml.tab.h xml.y
