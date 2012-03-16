@@ -12,7 +12,7 @@ string NodeList::getChildNodesString()
   //print all child nodes
   list<Node*>::iterator childIt = childNodeList.begin();
   for(;childIt != childNodeList.end(); childIt++){
-    out << " " << (*childIt)->tagName;
+    //out << " " << (*childIt)->tagName;
   }
 
   return out.str();
@@ -50,11 +50,11 @@ string NodeList::toString()
   //print all child nodes
   list<Node*>::iterator childIt = childNodeList.begin();
   for(;childIt != childNodeList.end(); childIt++){
-    out << (*childIt)->toString();
+    out << "\n" << (*childIt)->toString();
   }
   
   //Close
-  out << "</" << tagName << ">";
+  out << "\n</" << tagName << ">";
 
   return out.str();
 }
