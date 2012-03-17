@@ -5,7 +5,7 @@ void DocumentXML::parseDTD()
 
 }
 
-void DocumentXML::validate()
+bool DocumentXML::validate()
 {
 
 }
