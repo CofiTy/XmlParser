@@ -9,12 +9,21 @@
 class DocumentXML
 {
  public:
-  std::string dtd;
-  NodeList rootNode;
-  DTDValidator validator;
+  std::string dtd, document, xsl;
+  NodeList XMLRootNode;
+  NodeList XSLRootNode;
+  NodeList XHTMLRootNode;
+  DTDValidator XMLValidator;
+  DTDValidator XSLValidator;
 
+  DocumentXML(sdt::string document);
+  void parseXML();
   void parseDTD();
-  void validate();
+  void parseXSL();
+  bool validate();
+
+  bool parse();
+  void render();
 };
 
 #endif
