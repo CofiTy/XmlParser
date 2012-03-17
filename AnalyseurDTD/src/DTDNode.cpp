@@ -16,12 +16,10 @@ DTDNode::DTDNode(const DTDNode& orig) {
 DTDNode::~DTDNode() {
 }
 
-bool DTDNode::validateChildString(std::string childString){
-	//return regex_match(childString, this->regExpChildNodes);
-	return true;
+bool DTDNode::validateChildString(const string childString){
+        return regex_match(childString, this->regExpChildNodes);
 }
 
-
-void DTDNode::setRegExpChildNodes(std::string regExpChildNodes){
-	//this->regExpChildNodes(regExpChildNodes, boost::regex::basic);
+void DTDNode::setRegExpChildNodes(string regExpChildNodes){
+        this->regExpChildNodes = regex(regExpChildNodes, boost::regex::basic);
 }

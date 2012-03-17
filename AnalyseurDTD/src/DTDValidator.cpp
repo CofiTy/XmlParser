@@ -47,6 +47,8 @@ bool DTDValidator::validate(NodeList & node){
 			}
 		}
 	}
+	
+	return true;
 }
 
 void DTDValidator::addNode(DTDNode* node){
