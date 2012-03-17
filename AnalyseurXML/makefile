@@ -1,11 +1,31 @@
-EXEC=analyseXML
+CC=g++
+EDL=g++
+RM=rm
+BUILDDIR=build/
+SRCDIR=src/
+PARSEDIR=parse/
+PARSEBUILDDIR=parseBuild/
+CCFLAGS=-g -DYYDEBUG=1 -O0 -Wall
+LDFLAGS=
+RMFLAGS=-f
+EXE=analyseXML
+EFFACE=clean
+OBJ=$(BUILDDIR)Data.o $(BUILDDIR)NodeList.o $(BUILDDIR)DocumentXML.o
+PARSEOBJ=$(PARSEBUILDDIR)xml.tab.o $(PARSEBUILDDIR)lex.xml.o
 
-all: $(EXEC)
+all: $(OBJ) $(PARSEOBJ)
 
-analyseXML: *.l *.y makefile
-	flex -Pxml xml.l
-	bison -p xml --debug --verbose --defines=xml.tab.h xml.y
-	g++ -g -DYYDEBUG=1 -o analyseXML  lex.xml.c  xml.tab.c Data.cpp NodeList.cpp 
-clean:
-	-rm -rf *.tab.c lex.*.c *.tab.h *.output analyseXML
+$(BUILDDIR)%.o : $(SRCDIR)%.cpp $(SRCDIR)%.h
+	$(CC) $(CCFLAGS) -c $< -o $@
 
+$(PARSEBUILDDIR)%.o : $(PARSEDIR)%.c
+	$(CC) $(CCFLAGS) -c $< -o $@
+
+$(PARSEDIR)lex.xml.c : $(PARSEDIR)xml.l
+	flex -Pxml -o$(PARSEDIR)lex.xml.c $<
+
+$(PARSEDIR)xml.tab.c : $(PARSEDIR)xml.y
+	bison -p xml --debug --verbose --defines=$(PARSEDIR)xml.tab.h -o$(PARSEDIR)xml.tab.c $<
+
+$(EFFACE) :
+	$(RM) $(RMFLAGS) $(BUILDDIR)*.o $(EXE) core $(PARSEDIR)*.output $(PARSEBUILDIR)*.o $(PARSEDIR)*.c $(PARSEDIR)*.h

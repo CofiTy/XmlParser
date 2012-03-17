@@ -4,7 +4,7 @@
 #include <string>
 
 #include "NodeList.h"
-#include "../AnalyseurDTD/DTDValidator.h"
+#include "../../AnalyseurDTD/src/DTDValidator.h"
 
 class DocumentXML
 {

@@ -28,7 +28,7 @@ string NodeList::getChildNodesString()
 
 list<string> NodeList::getAttributesList()
 {
-  
+
 }
 
 void NodeList::addAttribute(string key, string value)

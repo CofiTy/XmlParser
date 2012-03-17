@@ -1,6 +1,6 @@
 %{
 #include <iostream>
-#include "userClass.h"
+#include "../src/userClass.h"
 
 using namespace std;
 void yyerror(char *msg);
@@ -98,17 +98,31 @@ default_declaration
  
 ;
 %%
-int main(int argc, char **argv)
+
+void dtdrestart(FILE * );
+
+int parseDTDFile(char* file)
 {
   int err;
+  
+  //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
-//  yydebug = 1; // pour désactiver l'affichage de l'exécution du parser LALR, commenter cette ligne
-
-  err = yyparse();
+  printf("Trying to Parse %s\n", file);
+  FILE * f;
+  if((f = fopen(file, "r")) == NULL)
+  {
+    fprintf(stderr, "ERROR: No file named %s\n", file);
+  }
+  dtdrestart(f);
+  err = dtdparse();
+  fclose(f);
+  
   if (err != 0) printf("Parse ended with %d error(s)\n", err);
-        else  printf("Parse ended with success\n", err);
-  return 0;
+    else  printf("Parse ended with success\n");
+  
+  return err;
 }
+
 int yywrap(void)
 {
   return 1;
