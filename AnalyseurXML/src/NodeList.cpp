@@ -26,9 +26,16 @@ string NodeList::getChildNodesString()
   return out.str();
 }
 
-list<string> NodeList::getAttributesList()
+list<string>* NodeList::getAttributesList()
 {
+  list<string>* attList = new list<string>();
 
+  map<string, string>::iterator attIt = attributes.begin();
+  for(;attIt != attributes.end(); attIt++){
+    attList->push_back(attIt->first);
+  }
+
+  return attList;
 }
 
 void NodeList::addAttribute(string key, string value)
