@@ -32,4 +32,23 @@ int main(int argc, char ** argv)
   cout << n.toString() << endl;
 
   cout << n.getChildNodesString() << endl;
+
+  list<string>* atts = n.getAttributesList();
+
+  list<string>::iterator attIt = atts->begin();
+  for(;attIt != atts->end(); attIt++){
+    cout << *attIt << " ";
+  }
+  cout << endl;
+
+  list<string>* atts2 = n2.getAttributesList();
+
+  list<string>::iterator attIt2 = atts2->begin();
+  for(;attIt2 != atts2->end(); attIt2++){
+    cout << *attIt2 << " ";
+  }
+  cout << endl;
+
+  delete atts;
+  delete atts2;
 }
