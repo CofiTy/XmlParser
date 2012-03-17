@@ -30,4 +30,6 @@ int main(int argc, char ** argv)
   n2.appendChild(&d2);
 
   cout << n.toString() << endl;
+
+  cout << n.getChildNodesString() << endl;
 }
