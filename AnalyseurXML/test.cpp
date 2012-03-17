@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "NodeList.h"
-#include "Data.h"
+#include "src/NodeList.h"
+#include "src/Data.h"
 
 using namespace std;
 
