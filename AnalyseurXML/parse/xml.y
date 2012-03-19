@@ -33,7 +33,7 @@ int yylex(void);
 %%
 
 document
- : declarations_opt xml_element misc_seq_opt {$$ = new DocumentXML; $$->rootNode = *$2; $$->dtd = *$1; cout << $2->toString() << endl; free($1);} 
+ : declarations_opt xml_element misc_seq_opt {$$ = new DocumentXML(); $$->XMLRootNode = *$2; $$->dtd = *$1; cout << $2->toString() << endl; free($1);} //What no std constructor???
  ;
 misc_seq_opt
  : misc_seq_opt comment
