@@ -17,11 +17,10 @@ int yylex(void);
    std::list<std::string> * ls;
    }
 
-%token ELEMENT ATTLIST CLOSE OPENPAR CLOSEPAR COMMA PIPE FIXED EMPTY ANY PCDATA AST QMARK PLUS CDATA
-%token <s> IDENT TOKENTYPE DECLARATION STRING
-%type <st> attribute 
+%token ELEMENT ATTLIST CLOSE OPENPAR CLOSEPAR COMMA PIPE FIXED EMPTY ANY  AST QMARK PLUS CDATA
+%token <s> IDENT TOKENTYPE DECLARATION STRING PCDATA
+%type <st> attribute dtd_element item card_opt cp children choice_card choice choice_list_plus seq seq_card seq_list choice_list
 %type <ls> att_definition_opt
-
 %%
 
 
@@ -33,31 +32,38 @@ dtd_list_opt
 | {/*$$ = new DTDValidator();*/} ;
 
 dtd_element
-: ELEMENT IDENT cp CLOSE 
+: ELEMENT IDENT cp CLOSE	{/*Moises*/$$ = new string("("); $$ -> append($2);$$ -> append(")");$$ -> append(*$3); cout<<*$$<<"\n";/*Fin Moises*/}
 ;
 dtd_attlist
 : ATTLIST IDENT att_definition_opt CLOSE {cout <<"NEW ATTLIS "<<$2<<" "<<$3->front()<<"\n";}
 ;
 
-cp: item card_opt;
+cp: item card_opt	{$$ = new string(*$1); $$ -> append(*$2);};
 
-item: IDENT | PCDATA | children;
+item: IDENT {/*Moises*/ $$ = new string("(");$$ -> append($1);$$ -> append(")");/*Fin Moises*/}
+| PCDATA {/*Moises*/ $$ = new string("(");$$ -> append($1);$$ -> append(")");/*Fin Moises*/}
+| children {/*Moises*/ $$ = new string(*$1);/*Fin Moises*/};
 
-children: choice_card | seq_card;
+children: choice_card {/*Moises*/ $$ = new string(*$1);/*Fin Moises*/}
+| seq_card	{/*Moises*/ $$ = new string(*$1);/*Fin Moises*/};
 
-choice_card: choice card_opt;
+choice_card: choice card_opt	{/*Moises*/ $$ = new string(*$1); $$ -> append(*$2);/*Fin Moises*/};
 
-seq_card: seq card_opt;
+seq_card: seq card_opt	{/*Moises*/ $$ = new string(*$1); $$ -> append(*$2);/*Fin Moises*/};
 
-card_opt: QMARK | PLUS | AST | /*empty*/;
+card_opt: QMARK {/*Moises*/ $$ = new string("?");/*Fin Moises*/}
+| PLUS {/*Moises*/ $$ = new string("+");/*Fin Moises*/}
+| AST  {/*Moises*/ $$ = new string("*");/*Fin Moises*/}
+| /*empty*/ {/*Moises*/ $$ = new string("");/*Fin Moises*/};
 
-choice: OPENPAR choice_list_plus CLOSEPAR;
-choice_list_plus: cp PIPE choice_list;
-choice_list: choice_list PIPE cp | cp;
+choice: OPENPAR choice_list_plus CLOSEPAR   {/*Moises*/$$ = new string("("); $$ -> append(*$2); $$ -> append(")");/*Fin Moises*/};
+choice_list_plus: cp PIPE choice_list {/*Moises*/$$ = new string(*$1); $$ -> append("|"); $$ -> append(*$3);/*Fin Moises*/};
+choice_list: choice_list PIPE cp {/*Moises*/$$ = new string(*$1); $$ -> append("|"); $$ -> append(*$3);/*Fin Moises*/};
+|cp 	{/*Moises*/$$ = new string(*$1)/*Fin Moises*/};
 
-seq: OPENPAR seq_list CLOSEPAR;
-seq_list: seq_list COMMA cp | cp;
-
+seq: OPENPAR seq_list CLOSEPAR		{/*Moises*/$$ = new string("("); $$ -> append(*$2); $$ -> append(")");/*Fin Moises*/};
+seq_list: seq_list COMMA cp {/*Moises*/$$ = new string(*$1);$$ -> append(*$3);/*Fin Moises*/};
+| cp		{/*Moises*/$$ = new string(*$1)/*Fin Moises*/};
 
 att_definition_opt
 : att_definition_opt attribute { $$->push_back(*$2);}
