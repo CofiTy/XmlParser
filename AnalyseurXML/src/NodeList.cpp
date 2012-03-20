@@ -3,6 +3,8 @@
 #include <iostream>
 #include <sstream> 
 
+#include "Data.h"
+
 using namespace std;
 
 string NodeList::getChildNodesString()
@@ -12,15 +14,28 @@ string NodeList::getChildNodesString()
   //print all child nodes
   list<Node*>::iterator childIt = childNodeList.begin();
   for(;childIt != childNodeList.end(); childIt++){
-    //out << " " << (*childIt)->tagName;
+    if (dynamic_cast<NodeList*>(*childIt) != NULL){
+      out << " " << dynamic_cast<NodeList*>(*childIt)->tagName;
+    }else if (dynamic_cast<Data*>(*childIt) != NULL){
+      out << " CDATA";
+    }else {
+      cout << "Unknown type " << (*childIt);
+    }
   }
 
   return out.str();
 }
 
-list<string> NodeList::getAttributesList()
+list<string>* NodeList::getAttributesList()
 {
-  
+  list<string>* attList = new list<string>();
+
+  map<string, string>::iterator attIt = attributes.begin();
+  for(;attIt != attributes.end(); attIt++){
+    attList->push_back(attIt->first);
+  }
+
+  return attList;
 }
 
 void NodeList::addAttribute(string key, string value)

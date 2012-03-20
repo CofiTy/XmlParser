@@ -1,10 +1,10 @@
 %{
 
 using namespace std;
-#include "commun.h"
+#include "../src/commun.h"
 #include <iostream>
 
-int yywrap(void);
+//int yywrap(void);
 void yyerror(char *msg);
 int yylex(void);
 
@@ -14,7 +14,9 @@ int yylex(void);
    char * s;
    NodeList * nl;
    Data * d;
+   string * st;
    list<Node*> * listN;
+   DocumentXML * doc;
    map<string,string> * m;
    ElementName * en;  /* le nom d'un element avec son namespace */
 }
@@ -22,14 +24,16 @@ int yylex(void);
 %token EQ SLASH CLOSE CLOSESPECIAL DOCTYPE
 %token <s> ENCODING STRING DATA COMMENT IDENT NSIDENT
 %token <en> NSSTART START STARTSPECIAL END NSEND
-%type <nl> xml_element start document
+%type <nl> xml_element start
+%type <doc> document
 %type <m> attributs_opt
+%type <st> declarations_opt declaration
 %type <listN> content_opt close_content_and_end empty_or_content
 
 %%
 
 document
- : declarations_opt xml_element misc_seq_opt {$$ = $2; cout << $$->toString() << endl;} 
+ : declarations_opt xml_element misc_seq_opt {$$ = new DocumentXML; $$->rootNode = *$2; $$->dtd = *$1; cout << $2->toString() << endl; free($1);} 
  ;
 misc_seq_opt
  : misc_seq_opt comment
@@ -40,12 +44,12 @@ comment
  ;
 
 declarations_opt
- : declaration
- | /*empty*/
+ : declaration {$$ = $1;}
+ | /*empty*/ {$$ = NULL;}
  ;
  
 declaration
- : DOCTYPE IDENT IDENT STRING CLOSE {cout << "<!Doctype " << $2 << " " << $3 << " " << $4 << ">" << endl;}
+ : DOCTYPE IDENT IDENT STRING CLOSE {$$ = new string($4); cout << "<!Doctype " << $2 << " " << $3 << " " << $4 << ">" << endl;}
  ;
 
 xml_element
@@ -74,21 +78,34 @@ content_opt
  ;
 %%
 
-int main(int argc, char **argv)
+void xmlrestart(FILE * );
+
+int parseXMLFile(char* file)
 {
   int err;
-
+  
   //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
-  err = yyparse();
+  printf("Trying to Parse %s\n", file);
+  FILE * f;
+  if((f = fopen(file, "r")) == NULL)
+  {
+    fprintf(stderr, "ERROR: No file named %s\n", file);
+  }
+  xmlrestart(f);
+  err = xmlparse();
+  fclose(f);
+  
   if (err != 0) printf("Parse ended with %d error(s)\n", err);
-  	else  printf("Parse ended with success\n", err);
-  return 0;
+    else  printf("Parse ended with success\n");
+  
+  return err;
 }
-int yywrap(void)
+
+/*int yywrap(void)
 {
   return 1;
-}
+}*/
 
 void yyerror(char *msg)
 {
