@@ -5,18 +5,19 @@
 
 #include "NodeList.h"
 #include "../../AnalyseurDTD/src/DTDValidator.h"
+#include "commun.h"
 
 class DocumentXML
 {
  public:
-  std::string dtd, document, xsl;
+  char *dtd, *document, *xsl;
   NodeList XMLRootNode;
   NodeList XSLRootNode;
   NodeList XHTMLRootNode;
   DTDValidator XMLValidator;
   DTDValidator XSLValidator;
 
-  DocumentXML(std::string document = NULL);
+  DocumentXML(char* document, char* xsl = NULL);
   void parseXML();
   void parseDTD();
   void parseXSL();

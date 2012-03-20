@@ -15,7 +15,7 @@ PARSEOBJ=$(PARSEBUILDDIR)xml.tab.o $(PARSEBUILDDIR)lex.xml.o
 
 all: $(OBJ) $(PARSEOBJ)
 
-$(BUILDDIR)%.o : $(SRCDIR)%.cpp $(SRCDIR)%.h
+$(BUILDDIR)%.o : $(SRCDIR)%.cpp $(SRCDIR)%.h $(PARSEDIR)xml.tab.c
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 $(PARSEBUILDDIR)%.o : $(PARSEDIR)%.c

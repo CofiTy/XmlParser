@@ -1,37 +1,50 @@
+#include <cstring>
+
 #include "DocumentXML.h"
-#include "commun.h"
-#include "../parse/xml.tab.h"
 
 using namespace std;
 
-int parseXMLFile(char* file);
 
-DocumentXML::DocumentXML(string document)
+int parseXMLFile(char* file, DocumentXML * doc);
+
+
+DocumentXML::DocumentXML(char* document, char* xsl)
 {
-  this->document = document;
+  dtd = NULL;
+  
+  this->document = (char*)malloc(strlen(document)+1);
+  strcpy(this->document, document);
+
+  if (xsl != NULL){
+    this->xsl = (char*)malloc(strlen(xsl)+1);
+    strcpy(this->xsl, xsl);
+  }
 }
 
 //this should set dtd and xsl
 void DocumentXML::parseXML()
 {
   //document is set
-  if (document == "")
+  if (document == NULL)
     return;
 
   parseXMLFile(document, this);
-
 }
 
 void DocumentXML::parseDTD()
 {
-  if (dtd == "")
+  if (dtd == NULL)
     return;
+
+
 }
 
 void DocumentXML::parseXSL()
 {
-  if (xsl == "")
+  if (xsl == NULL)
     return;
+
+
 }
 
 bool DocumentXML::validate()
@@ -51,5 +64,5 @@ bool DocumentXML::parse()
 
 void DocumentXML::render()
 {
-
+  
 }

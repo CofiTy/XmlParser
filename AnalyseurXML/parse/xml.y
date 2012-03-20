@@ -10,7 +10,7 @@ int yylex(void);
 
 %}
 
-%parse-param (DocumentXML * documentXML)
+%parse-param {DocumentXML * documentXML}
 
 %union {
    char * s;
