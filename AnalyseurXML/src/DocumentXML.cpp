@@ -13,6 +13,7 @@ DocumentXML::DocumentXML(char* document, char* xsl)
 {
   dtd = NULL;
   dtdNameIsSet = false;
+  xslNameIsSet = false;
 
   this->document = (char*)malloc(strlen(document)+1);
   strcpy(this->document, document);

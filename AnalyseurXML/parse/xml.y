@@ -48,7 +48,15 @@ special_dec_opt
  | /*empty*/
  ;
 attributs_sp_opt
- : attributs_sp_opt IDENT EQ STRING {if(strcmp($2,"xml-stylesheet")){documentXML->xsl = $4;};}
+ : attributs_sp_opt IDENT EQ STRING {
+                                      if(strcmp($2,"xml-stylesheet"))
+                                      {
+                                        if(documentXML->xslNameIsSet == false)
+                                        {
+                                          documentXML->xsl = $4;
+                                          documentXML->xslNameIsSet = true;
+                                        }
+                                      };}
  | /* empty */
  ;
 misc_seq_opt
