@@ -53,25 +53,24 @@ void DocumentXML::parseXSL()
 }
 
 
-void recursiveTreeSearch(NodeList root)
+void DocumentXML::recursiveTreeSearch(Node *root)
 {	
 	
 	//Looking for a template!
-	map<string, string>::iterator templateLook;
+	list<Node *>::iterator templateLook;
 	for (templateLook = (XSLRootNode.childNodeList).begin() ; templateLook != (XSLRootNode.childNodeList).end(); templateLook++)
 	{
-		if(templateLook->nameSpace == "xsl"
-		&& templateLook->tagName == "template"
-		&& templateLook->attributes["match"] == root.tagName())
+		if(((NodeList *)(*templateLook))->nameSpace == "xsl"
+		&& ((NodeList *)(*templateLook))->tagName == "template"
+		&& ((NodeList *)(*templateLook))->attributes["match"] == root->tagName)
 		{
-			cout << root.tagName() << endl;
+			cout << root->tagName << endl;
 			break;
 		}
 	}
 	
-	
 	list<Node*>::iterator it;
-	for (it = (root.childNodeList).begin() ; it != (root.childNodeList).end(); it++)
+	for (it = (root->childNodeList).begin() ; it != (root->childNodeList).end(); it++)
 	{
 		recursiveTreeSearch(*it);
 	}
@@ -87,9 +86,8 @@ void DocumentXML::processXSLT()
   this->state = "ProcessXSLT";
   
   string currentXMLTag = XMLRootNode.tagName;
-  string currentXSLNode = XSLRootNode;
   
-  recursiveTreeSearch(XMLRootNode);
+  recursiveTreeSearch(&XMLRootNode);
   
 }
 

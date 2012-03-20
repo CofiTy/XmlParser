@@ -27,9 +27,14 @@ class DocumentXML
   
   void processXSLT();
   void setActiveRootNode(NodeList node);
+  
+  
 
   bool parse();
   void render();
+  
+ private:
+	void recursiveTreeSearch(Node * root);
 };
 
 #endif
