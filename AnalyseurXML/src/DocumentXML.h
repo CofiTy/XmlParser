@@ -13,7 +13,7 @@ class DocumentXML
   char *dtd, *document, *xsl;
   NodeList XMLRootNode;
   NodeList XSLRootNode;
-  NodeList XHTMLRootNode;
+  NodeList XMLOutputRootNode;
   DTDValidator XMLValidator;
   DTDValidator XSLValidator;
 
@@ -22,6 +22,8 @@ class DocumentXML
   void parseDTD();
   void parseXSL();
   bool validate();
+  
+  void processXSLT();
 
   bool parse();
   void render();
