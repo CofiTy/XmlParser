@@ -11,5 +11,6 @@
 <!ELEMENT section (p)+>
 <!ATTLIST section
         titre CDATA #IMPLIED
+        titre2 CDATA #IMPLIED
 >
 <!ELEMENT p (#PCDATA)>
