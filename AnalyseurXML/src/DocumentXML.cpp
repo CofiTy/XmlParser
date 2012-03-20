@@ -1,6 +1,10 @@
 #include "DocumentXML.h"
+#include "commun.h"
+#include "../parse/xml.tab.h"
 
 using namespace std;
+
+int parseXMLFile(char* file);
 
 DocumentXML::DocumentXML(string document)
 {
@@ -14,6 +18,7 @@ void DocumentXML::parseXML()
   if (document == "")
     return;
 
+  parseXMLFile(document, this);
 
 }
 

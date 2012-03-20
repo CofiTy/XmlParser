@@ -10,6 +10,8 @@ int yylex(void);
 
 %}
 
+%parse-param (DocumentXML * documentXML)
+
 %union {
    char * s;
    NodeList * nl;
@@ -33,7 +35,7 @@ int yylex(void);
 %%
 
 document
- : declarations_opt xml_element misc_seq_opt {$$ = new DocumentXML(); $$->XMLRootNode = *$2; $$->dtd = *$1; cout << $2->toString() << endl; free($1);} //What no std constructor???
+ : declarations_opt xml_element misc_seq_opt {$$ = documentXML; $$->XMLRootNode = *$2; $$->dtd = *$1; cout << $2->toString() << endl; free($1);} //What no std constructor???
  ;
 misc_seq_opt
  : misc_seq_opt comment
@@ -80,7 +82,7 @@ content_opt
 
 void xmlrestart(FILE * );
 
-int parseXMLFile(char* file)
+int parseXMLFile(char * file; DocumentXML * documentXML)
 {
   int err;
   
@@ -93,7 +95,7 @@ int parseXMLFile(char* file)
     fprintf(stderr, "ERROR: No file named %s\n", file);
   }
   xmlrestart(f);
-  err = xmlparse();
+  err = xmlparse(documentXML);
   fclose(f);
   
   if (err != 0) printf("Parse ended with %d error(s)\n", err);
