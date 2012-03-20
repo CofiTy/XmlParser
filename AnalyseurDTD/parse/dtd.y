@@ -3,11 +3,13 @@
 #include "../src/userClass.h"
 
 using namespace std;
-void yyerror(char *msg);
+void yyerror(DTDValidator ** validator, char *msg);
 int yywrap(void);
 int yylex(void);
 
 %}
+
+%parse-param {DTDValidator ** validator}
 
 %union { 
    char *s; 
@@ -15,27 +17,35 @@ int yylex(void);
    DTDNode * n;
    std::string * st;
    std::list<std::string> * ls;
+   std::pair<std::string, std::list<std::string> > * p;
    }
 
 %token ELEMENT ATTLIST CLOSE OPENPAR CLOSEPAR COMMA PIPE FIXED EMPTY ANY  AST QMARK PLUS CDATA
 %token <s> IDENT TOKENTYPE DECLARATION STRING PCDATA
-%type <st> attribute dtd_element item card_opt cp children choice_card choice choice_list_plus seq seq_card seq_list choice_list
+%type <st> attribute item card_opt cp children choice_card choice choice_list_plus seq seq_card seq_list choice_list
 %type <ls> att_definition_opt
+%type <n> dtd_element
+%type <v> main dtd_list_opt
+%type <p> dtd_attlist
 %%
 
 
-main:  dtd_list_opt ;
+main: dtd_list_opt {*validator = $1};
 
 dtd_list_opt
-: dtd_element dtd_list_opt 
-| dtd_attlist dtd_list_opt {/*$$ = $2; $$->addNode($1);*/} 
-| {/*$$ = new DTDValidator();*/} ;
+: dtd_element dtd_list_opt {$$ = $2; $$->addNode($1);}
+| dtd_attlist dtd_list_opt {$$ = $2; $$->addAttribute($1);}
+| {$$ = new DTDValidator();} ;
 
 dtd_element
-: ELEMENT IDENT cp CLOSE	{/*Moises*/$$ = new string(*$3);/*Fin Moises*/}
+: ELEMENT IDENT cp CLOSE	{/*Moises*/$$ = new DTDNode(); $$->tagName = $2; $$->setRegExpChildNodes(*$3);/*Fin Moises*/}
 ;
 dtd_attlist
-: ATTLIST IDENT att_definition_opt CLOSE {cout <<"NEW ATTLIS "<<$2<<" "<<$3->front()<<"\n";}
+: ATTLIST IDENT att_definition_opt CLOSE {
+  $$ = new std::pair<std::string, std::list<std::string> >();
+  $$->first = $2;
+  $$->second = *$3;
+  }
 ;
 
 cp: item card_opt	{$$ = new string(*$1); $$ -> append(*$2);};
@@ -111,7 +121,7 @@ int parseDTDFile(char* file)
 {
   int err;
   
-  yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
+  //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
   printf("Trying to Parse %s\n", file);
   FILE * f;
@@ -120,8 +130,13 @@ int parseDTDFile(char* file)
     fprintf(stderr, "ERROR: No file named %s\n", file);
   }
   dtdrestart(f);
-  err = dtdparse();
+
+  DTDValidator * v;
+
+  err = dtdparse(&v);
   fclose(f);
+
+  //v->toString();
   
   if (err != 0) printf("Parse ended with %d error(s)\n", err);
     else  printf("Parse ended with success\n");
@@ -134,7 +149,7 @@ int yywrap(void)
   return 1;
 }
 
-void yyerror(char *msg)
+void yyerror(DTDValidator ** v, char *msg)
 {
   fprintf(stderr, "%s\n", msg);
 }
