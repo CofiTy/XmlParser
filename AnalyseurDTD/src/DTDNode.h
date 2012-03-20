@@ -12,23 +12,24 @@
 #include <list>
 #include <boost/regex.hpp> 
 
+using namespace std;
+using namespace boost;
+
 class DTDNode {
 public:
     DTDNode();
     DTDNode(const DTDNode& orig);
     virtual ~DTDNode();
 
-    std::string tagName;
-    std::list<std::string> attributes;
+    string tagName;
+    list<string> attributes;
     
-    bool validateChildString(std::string childString);
-    void setRegExpChildNodes(std::string regExpChildNodes);
+    bool validateChildString(const string childString);
+    void setRegExpChildNodes(const string regExpChildNodes);
 private:
 
-    //boost::regex regExpChildNodes;
+    regex regExpChildNodes;
 
 };
 
 #endif	/* DTDNODE_H */
-
-

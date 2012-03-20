@@ -7,3 +7,4 @@
 <!ELEMENT section (titre, p+)>
 <!ELEMENT p (#PCDATA)>
 <!ELEMENT titre (#PCDATA)>
+
