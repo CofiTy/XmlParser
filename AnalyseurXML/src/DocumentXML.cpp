@@ -1,4 +1,5 @@
 #include <cstring>
+#include <iostream>
 
 #include "DocumentXML.h"
 
@@ -11,7 +12,8 @@ int parseXMLFile(char* file, DocumentXML * doc);
 DocumentXML::DocumentXML(char* document, char* xsl)
 {
   dtd = NULL;
-  
+  dtdNameIsSet = false;
+
   this->document = (char*)malloc(strlen(document)+1);
   strcpy(this->document, document);
 
@@ -28,6 +30,7 @@ void DocumentXML::parseXML()
   if (document == NULL)
     return;
 
+  this->state = "XML";
   parseXMLFile(document, this);
 }
 
@@ -36,6 +39,7 @@ void DocumentXML::parseDTD()
   if (dtd == NULL)
     return;
 
+  this->state = "DTD";
 
 }
 
@@ -44,7 +48,8 @@ void DocumentXML::parseXSL()
   if (xsl == NULL)
     return;
 
-
+  this->state = "XSL";
+  parseXMLFile(xsl, this);
 }
 
 bool DocumentXML::validate()
@@ -60,6 +65,22 @@ bool DocumentXML::parse()
   parseXSL();
 
   return validate();
+}
+
+void DocumentXML::setActiveRootNode(NodeList node)
+{
+    if(state == "XML")
+    {
+      XMLRootNode = node;
+    }
+    else if(state == "XSL")
+    {
+      XSLRootNode = node;
+    }
+    else
+    {
+      cout << "Unknown state" << endl;
+    }
 }
 
 void DocumentXML::render()
