@@ -9,8 +9,9 @@ int main(int argc, char **argv)
 
   if(argc == 2)
   {
-    DocumentXML document = DocumentXML(argv[1]);
+    DocumentXML document = DocumentXML(argv[1],"XSLNameFile");
     document.parseXML();
+    //document.parseXSL();
   }
   if(argc == 3)
   {

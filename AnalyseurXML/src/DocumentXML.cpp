@@ -28,6 +28,7 @@ void DocumentXML::parseXML()
   if (document == NULL)
     return;
 
+  this->state = "XML";
   parseXMLFile(document, this);
 }
 
@@ -44,7 +45,8 @@ void DocumentXML::parseXSL()
   if (xsl == NULL)
     return;
 
-
+  this->state = "XSL";
+  parseXMLFile(xsl, this);
 }
 
 bool DocumentXML::validate()
