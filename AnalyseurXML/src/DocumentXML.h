@@ -11,6 +11,8 @@ class DocumentXML
 {
  public:
   char *dtd, *document, *xsl;
+  std::string state;
+  bool dtdNameIsSet;
   NodeList XMLRootNode;
   NodeList XSLRootNode;
   NodeList XMLOutputRootNode;
@@ -24,6 +26,7 @@ class DocumentXML
   bool validate();
   
   void processXSLT();
+  void setActiveRootNode(NodeList node);
 
   bool parse();
   void render();

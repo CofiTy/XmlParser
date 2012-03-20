@@ -34,7 +34,13 @@ int yylex(void);
 %%
 
 document
- : declarations_opt xml_element misc_seq_opt {$$ = documentXML; $$->setRootNode(*$2); if(documentXML->setDTD == FALSE){$$->dtd = $1;};} 
+ : declarations_opt xml_element misc_seq_opt {$$ = documentXML; 
+                                              $$->setActiveRootNode(*$2); 
+                                              if(documentXML->dtdNameIsSet == false)
+                                              {
+                                                $$->dtd = $1; 
+                                                $$->dtdNameIsSet = true;
+                                              };} 
  ;
 misc_seq_opt
  : misc_seq_opt comment
