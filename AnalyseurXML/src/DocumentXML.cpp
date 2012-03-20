@@ -7,6 +7,7 @@ using namespace std;
 
 
 int parseXMLFile(char* file, DocumentXML * doc);
+int parseDTDFile(DocumentXML * doc);
 
 
 DocumentXML::DocumentXML(char* document, char* xsl)
@@ -40,7 +41,7 @@ void DocumentXML::parseDTD()
     return;
 
   this->state = "DTD";
-
+  parseXML
 }
 
 void DocumentXML::parseXSL()

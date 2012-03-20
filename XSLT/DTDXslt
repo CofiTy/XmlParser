@@ -1,10 +1,7 @@
 <!ELEMENT xsl:stylesheet EMPTY>
 <!ATTLIST xsl:stylesheet xmlns:xsl CDATA>
 
-<!ELEMENT xsl:template
- (#PCDATA
-  %instructions;)*
->
+<!ELEMENT xsl:template (#PCDATA)>
 <!ATTLIST xsl:template
   match CDATA #IMPLIED
 >
