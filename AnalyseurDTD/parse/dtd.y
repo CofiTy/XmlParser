@@ -59,7 +59,7 @@ card_opt: QMARK {/*Moises*/ $$ = new string("?");/*Fin Moises*/}
 choice: OPENPAR choice_list_plus CLOSEPAR   {/*Moises*/$$ = new string("("); $$ -> append(*$2); $$ -> append(")");/*Fin Moises*/};
 choice_list_plus: cp PIPE choice_list {/*Moises*/$$ = new string(*$1); $$ -> append("|"); $$ -> append(*$3);/*Fin Moises*/};
 choice_list: choice_list PIPE cp {/*Moises*/$$ = new string(*$1); $$ -> append("|"); $$ -> append(*$3);/*Fin Moises*/};
-|cp 	{/*Moises*/$$ = new string(*$1)/*Fin Moises*/};
+| cp 	{/*Moises*/$$ = new string(*$1)/*Fin Moises*/};
 
 seq: OPENPAR seq_list CLOSEPAR		{/*Moises*/$$ = new string("("); $$ -> append(*$2); $$ -> append(")");/*Fin Moises*/};
 seq_list: seq_list COMMA cp {/*Moises*/$$ = new string(*$1);$$ -> append(*$3);/*Fin Moises*/};
@@ -111,7 +111,7 @@ int parseDTDFile(char* file)
 {
   int err;
   
-  //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
+  yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
   printf("Trying to Parse %s\n", file);
   FILE * f;
@@ -138,5 +138,3 @@ void yyerror(char *msg)
 {
   fprintf(stderr, "%s\n", msg);
 }
-
-

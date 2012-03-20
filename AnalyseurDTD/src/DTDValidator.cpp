@@ -25,12 +25,12 @@ bool DTDValidator::validate(NodeList & node){
 			}
 			
 			//Check la liste des attributs
-			list<string> attr = node.getAttributesList();
+            list<string> * attr = node.getAttributesList();
 			
 			pair<multimap<string,string>::iterator,multimap<string,string>::iterator> ret;
 			multimap<string,string>::iterator ita2;
 			
-			for(list<string>::iterator ita = attr.begin(); ita != attr.end(); ita++){ //Pour chaque attribut A du node en cours
+            for(list<string>::iterator ita = attr->begin(); ita != attr->end(); ita++){ //Pour chaque attribut A du node en cours
 				ret = attributes.equal_range((*it)->tagName); //On recupere tous les attributs valides du node en cours
 				
 				bool b = false;
@@ -45,6 +45,8 @@ bool DTDValidator::validate(NodeList & node){
 					return false;
 				}
 			}
+
+            delete attr;
 		}
 	}
 	
