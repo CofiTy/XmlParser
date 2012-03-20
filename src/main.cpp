@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 
   if(argc == 2)
   {
-    DocumentXML document = new DocumentXML(argv[1]);
+    DocumentXML document = DocumentXML(argv[1]);
     document.parseXML();
   }
   if(argc == 3)

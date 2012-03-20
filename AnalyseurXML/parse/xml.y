@@ -5,7 +5,7 @@ using namespace std;
 #include <iostream>
 
 //int yywrap(void);
-void yyerror(char *msg);
+void yyerror(DocumentXML *doc, char *msg);
 int yylex(void);
 
 %}
@@ -16,7 +16,6 @@ int yylex(void);
    char * s;
    NodeList * nl;
    Data * d;
-   string * st;
    list<Node*> * listN;
    DocumentXML * doc;
    map<string,string> * m;
@@ -29,13 +28,13 @@ int yylex(void);
 %type <nl> xml_element start
 %type <doc> document
 %type <m> attributs_opt
-%type <st> declarations_opt declaration
+%type <s> declarations_opt declaration
 %type <listN> content_opt close_content_and_end empty_or_content
 
 %%
 
 document
- : declarations_opt xml_element misc_seq_opt {$$ = documentXML; $$->XMLRootNode = *$2; $$->dtd = *$1; cout << $2->toString() << endl; free($1);} //What no std constructor???
+ : declarations_opt xml_element misc_seq_opt {$$ = documentXML; $$->XMLRootNode = *$2; $$->dtd = $1; cout << $2->toString() << endl;} //What no std constructor???
  ;
 misc_seq_opt
  : misc_seq_opt comment
@@ -51,7 +50,7 @@ declarations_opt
  ;
  
 declaration
- : DOCTYPE IDENT IDENT STRING CLOSE {$$ = new string($4); cout << "<!Doctype " << $2 << " " << $3 << " " << $4 << ">" << endl;}
+ : DOCTYPE IDENT IDENT STRING CLOSE {$$ = $4; cout << "<!Doctype " << $2 << " " << $3 << " " << $4 << ">" << endl;}
  ;
 
 xml_element
@@ -82,7 +81,7 @@ content_opt
 
 void xmlrestart(FILE * );
 
-int parseXMLFile(char * file; DocumentXML * documentXML)
+int parseXMLFile(char * file, DocumentXML * documentXML)
 {
   int err;
   
@@ -109,7 +108,7 @@ int parseXMLFile(char * file; DocumentXML * documentXML)
   return 1;
 }*/
 
-void yyerror(char *msg)
+void yyerror(DocumentXML * doc, char *msg)
 {
   fprintf(stderr, "%s\n", msg);
 }
