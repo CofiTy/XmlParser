@@ -52,10 +52,10 @@ bool DTDValidator::validate(NodeList & node){
 }
 
 void DTDValidator::addNode(DTDNode* node){
-	this->nodes.push_back(node);
+  this->nodes.push_back(node);
 }
 
 void DTDValidator::addAttribute(std::string node, std::string attribute){
-	this->attributes.insert(std::pair<std::string,std::string>(node, attribute));
+  this->attributes.insert(std::pair<std::string,std::string>(node, attribute));
 }
 

@@ -16,7 +16,7 @@ class DocumentXML
   DTDValidator XMLValidator;
   DTDValidator XSLValidator;
 
-  DocumentXML(std::string document);
+  DocumentXML(std::string document = NULL);
   void parseXML();
   void parseDTD();
   void parseXSL();

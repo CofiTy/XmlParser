@@ -1,9 +1,7 @@
-#include "../AnalyseurXML/src/commun.h"
-#include "../AnalyseurXML/parse/xml.tab.h"
+#include "../AnalyseurXML/src/DocumentXML.h"
 #include "../AnalyseurDTD/src/userClass.h"
 #include "../AnalyseurDTD/parse/dtd.tab.h"
 
-int parseXMLFile(char* file);
 int parseDTDFile(char* file);
 
 int main(int argc, char **argv)
@@ -11,7 +9,8 @@ int main(int argc, char **argv)
 
   if(argc == 2)
   {
-    parseXMLFile(argv[1]);
+    DocumentXML document = new DocumentXML(argv[1]);
+    document.parseXML();
   }
   if(argc == 3)
   {
