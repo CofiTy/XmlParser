@@ -41,7 +41,7 @@ void DocumentXML::parseDTD()
     return;
 
   this->state = "DTD";
-  parseXML
+
 }
 
 void DocumentXML::parseXSL()
