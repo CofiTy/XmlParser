@@ -11,6 +11,7 @@
 #include <list>
 #include <string>
 #include <map>
+#include <iostream>
 
 #include "DTDNode.h"
 #include "../../AnalyseurXML/src/NodeList.h"
@@ -28,6 +29,9 @@ public:
     void addNode(DTDNode* node);
     
     void addAttribute(string node, string attribute);
+    void addAttribute(pair<string, list<string> > * attr);
+
+    void toString();
 
 private:
     list<DTDNode*> nodes;
