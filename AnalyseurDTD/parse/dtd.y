@@ -22,6 +22,7 @@ int yylex(void);
 
 %token ELEMENT ATTLIST CLOSE OPENPAR CLOSEPAR COMMA PIPE FIXED EMPTY ANY  AST QMARK PLUS CDATA
 %token <s> IDENT TOKENTYPE DECLARATION STRING PCDATA
+
 %type <st> attribute item card_opt cp children choice_card choice choice_list_plus seq seq_card seq_list choice_list
 %type <ls> att_definition_opt
 %type <n> dtd_element
@@ -39,6 +40,7 @@ dtd_list_opt
 
 dtd_element
 : ELEMENT IDENT cp CLOSE	{/*Moises*/$$ = new DTDNode(); $$->tagName = $2; $$->setRegExpChildNodes(*$3);/*Fin Moises*/}
+
 ;
 dtd_attlist
 : ATTLIST IDENT att_definition_opt CLOSE {
