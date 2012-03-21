@@ -12,9 +12,10 @@ int parseDTDFile(DocumentXML * doc, DTDValidator * XMLValidator);
 
 DocumentXML::DocumentXML(char* document, char* xsl)
 {
-  dtd = NULL;
-  dtdNameIsSet = false;
-  xslNameIsSet = false;
+  this->dtd = NULL;
+  this->xsl = NULL;
+  this->dtdNameIsSet = false;
+  this->xslNameIsSet = false;
 
   this->document = (char*)malloc(strlen(document)+1);
   strcpy(this->document, document);
@@ -38,9 +39,6 @@ void DocumentXML::parseXML()
 
 void DocumentXML::parseDTD()
 {
-  //TODO supprimer
-  dtd = "AnalyseurDTD/rap3.dtd";
-
   if (dtd == NULL)
     return;
 
@@ -49,10 +47,7 @@ void DocumentXML::parseDTD()
   this->state = "DTD";
 
   //TODO supprimer
-  this->XMLValidator.toString();
-
-  //TODO supprimer
-  cout << "C'est bon ? : " << ((this->XMLValidator.validate(this->XMLRootNode)) == true?"OUI":"NON") << "\n";
+  //this->XMLValidator.toString();
 
 }
 
@@ -63,12 +58,6 @@ void DocumentXML::parseXSL()
 
   this->state = "XSL";
   parseXMLFile(xsl, this);
-}
-
-bool DocumentXML::validate()
-{
-  //TODO 
-  return false;
 }
 
 bool DocumentXML::parse()
@@ -99,4 +88,38 @@ void DocumentXML::setActiveRootNode(NodeList node)
 void DocumentXML::render()
 {
   
+}
+
+bool DocumentXML::validate()
+{
+  return validateXML() && validateXSL();
+}
+
+bool DocumentXML::validateXML(){
+  return validateNode(this->XMLRootNode, this->XMLValidator);
+}
+
+bool DocumentXML::validateXSL(){
+  //TODO
+  //return validateNode(this->XSLRootNode, this->XSLValidator);
+  return true;
+}
+
+bool DocumentXML::validateNode(NodeList & l, DTDValidator & d){
+  bool b = true;
+  if(d.validate(l)){
+    for(list<Node*>::iterator it = l.childNodeList.begin(); it != l.childNodeList.end(); it++){
+      NodeList *nl = dynamic_cast<NodeList*>(*it);
+      if(nl != NULL){
+        if(!validateNode(*nl, d)){
+          b = false;
+          break;
+        }
+      }
+    }
+  } else {
+    b = false;
+  }
+
+  return b;
 }

@@ -49,7 +49,7 @@ special_dec_opt
  ;
 attributs_sp_opt
  : attributs_sp_opt IDENT EQ STRING {
-                                      if(strcmp($2,"xml-stylesheet"))
+                                      if(strcmp($2,"xml-stylesheet") == 0)
                                       {
                                         if(documentXML->xslNameIsSet == false)
                                         {

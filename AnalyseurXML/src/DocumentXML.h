@@ -30,6 +30,12 @@ class DocumentXML
 
   bool parse();
   void render();
+
+private:
+  bool validateXML();
+  bool validateXSL();
+
+  bool validateNode(NodeList & l, DTDValidator & d);
 };
 
 #endif

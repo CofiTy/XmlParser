@@ -15,9 +15,9 @@ string NodeList::getChildNodesString()
   list<Node*>::iterator childIt = childNodeList.begin();
   for(;childIt != childNodeList.end(); childIt++){
     if (dynamic_cast<NodeList*>(*childIt) != NULL){
-      out << " " << dynamic_cast<NodeList*>(*childIt)->tagName;
+      out << dynamic_cast<NodeList*>(*childIt)->tagName << " ";
     }else if (dynamic_cast<Data*>(*childIt) != NULL){
-      out << " CDATA";
+      out << "PCDATA ";
     }else {
       cout << "Unknown type " << (*childIt);
     }

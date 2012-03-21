@@ -40,7 +40,7 @@ dtd_list_opt
 | {$$ = new DTDValidator();} ;
 
 dtd_element
-: ELEMENT IDENT cp CLOSE	{/*Moises*/$$ = new DTDNode(); $$->tagName = $2; $$->setRegExpChildNodes(*$3);/*Fin Moises*/};
+: ELEMENT IDENT cp CLOSE	{$$ = new DTDNode(); $$->tagName = $2; $$->setRegExpChildNodes(*$3);};
 
 dtd_attlist
 : ATTLIST IDENT att_definition_opt CLOSE {
@@ -49,40 +49,40 @@ dtd_attlist
   $$->second = *$3;
   };
 
-cp: item card_opt	{$$ = new string(*$1); $$ -> append(*$2);};
+cp: item card_opt	{$$ = new string(*$1); $$->append(*$2);};
 
-item: IDENT {/*Moises*/ $$ = new string("(");$$ -> append($1);$$ -> append(")");/*Fin Moises*/}
-| PCDATA {/*Moises*/ $$ = new string("(");$$ -> append("PCDATA");$$ -> append(")");/*Fin Moises*/}
-| children {/*Moises*/ $$ = new string(*$1);/*Fin Moises*/};
+item: IDENT {$$ = new string("("); $$->append($1); $$->append(" )");}
+| PCDATA {$$ = new string("("); $$->append("PCDATA"); $$->append(" )");}
+| children {$$ = new string(*$1);};
 
-children: choice_card {/*Moises*/ $$ = new string(*$1);/*Fin Moises*/}
-| seq_card	{/*Moises*/ $$ = new string(*$1);/*Fin Moises*/};
+children: choice_card {$$ = new string(*$1);}
+| seq_card	{$$ = new string(*$1);};
 
-choice_card: choice card_opt	{/*Moises*/ $$ = new string(*$1); $$ -> append(*$2);/*Fin Moises*/};
+choice_card: choice card_opt	{$$ = new string(*$1); $$->append(*$2);};
 
-seq_card: seq card_opt	{/*Moises*/ $$ = new string(*$1); $$ -> append(*$2);/*Fin Moises*/};
+seq_card: seq card_opt	{$$ = new string(*$1); $$->append(*$2);};
 
-card_opt: QMARK {/*Moises*/ $$ = new string("?");/*Fin Moises*/}
-| PLUS {/*Moises*/ $$ = new string("+");/*Fin Moises*/}
-| AST  {/*Moises*/ $$ = new string("*");/*Fin Moises*/}
-| /*empty*/ {/*Moises*/ $$ = new string("");/*Fin Moises*/};
+card_opt: QMARK {$$ = new string("?");}
+| PLUS {$$ = new string("+");}
+| AST  {$$ = new string("*");}
+| /*empty*/ {$$ = new string("");};
 
-choice: OPENPAR choice_list_plus CLOSEPAR   {/*Moises*/$$ = new string("("); $$ -> append(*$2); $$ -> append(")");/*Fin Moises*/};
-choice_list_plus: cp PIPE choice_list {/*Moises*/$$ = new string(*$1); $$ -> append("|"); $$ -> append(*$3);/*Fin Moises*/};
-choice_list: choice_list PIPE cp {/*Moises*/$$ = new string(*$1); $$ -> append("|"); $$ -> append(*$3);/*Fin Moises*/};
-| cp 	{/*Moises*/$$ = new string(*$1)/*Fin Moises*/};
+choice: OPENPAR choice_list_plus CLOSEPAR   {$$ = new string("("); $$->append(*$2); $$->append(")");};
+choice_list_plus: cp PIPE choice_list {$$ = new string(*$1); $$->append("|"); $$->append(*$3);};
+choice_list: choice_list PIPE cp {$$ = new string(*$1); $$->append("|"); $$->append(*$3);};
+| cp 	{$$ = new string(*$1)};
 
-seq: OPENPAR seq_list CLOSEPAR		{/*Moises*/$$ = new string("("); $$ -> append(*$2); $$ -> append(")");/*Fin Moises*/};
-seq_list: seq_list COMMA cp {/*Moises*/$$ = new string(*$1);$$ -> append(*$3);/*Fin Moises*/};
-| cp		{/*Moises*/$$ = new string(*$1)/*Fin Moises*/};
+seq: OPENPAR seq_list CLOSEPAR		{$$ = new string("("); $$->append(*$2); $$->append(")");};
+seq_list: seq_list COMMA cp {$$ = new string(*$1); $$->append(*$3);};
+| cp		{$$ = new string(*$1)};
 
 att_definition_opt
-: att_definition_opt attribute { $$->push_back(*$2);}
+: att_definition_opt attribute {$$->push_back(*$2);}
 | /* empty */ {$$ = new std::list<std::string>();}
 ;
 
 attribute
-: IDENT att_type default_declaration { $$ = new string($1);}
+: IDENT att_type default_declaration {$$ = new string($1);}
 ;
 
 att_type
