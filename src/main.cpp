@@ -21,14 +21,15 @@ int main(int argc, char **argv)
     } else {
       cout << "XML NON Validé !!" << endl;
     }*/
-
+    /*
     if(document.parse()){
       cout << "TOUT OK !!" << endl;
     } else {
       cout << "PAS OK =((  !!" << endl;
     }
-
-    //cout << document.XMLRootNode.toString() << endl;
+    */
+    document.parseXML();
+    cout << document.XMLRootNode.toString() << endl;
     //document.parseXSL();
   }
   if(argc == 3)

@@ -52,25 +52,38 @@ string NodeList::toString()
 {
   stringstream out;
   //Start 
-  out << "<" << tagName;
+  out << "<";
+  
+  if(nameSpace != "")
+  {
+    out << nameSpace << ":";
+  }
 
+  out << tagName;
+  
   //print all node attributes
   map<string, string>::iterator attIt = attributes.begin();
   for(;attIt != attributes.end(); attIt++){
     out << " " << attIt->first << "=" << attIt->second;
   }
-  //close opening 
-  out << ">";
+  if(isAutoClosing == false)
+  {
+    //close opening 
+    out << ">";
 
-  //print all child nodes
-  list<Node*>::iterator childIt = childNodeList.begin();
-  for(;childIt != childNodeList.end(); childIt++){
-    out << "\n" << (*childIt)->toString();
-  }
+    //print all child nodes
+    list<Node*>::iterator childIt = childNodeList.begin();
+    for(;childIt != childNodeList.end(); childIt++){
+      out << "\n" << (*childIt)->toString();
+    }
   
-  //Close
-  out << "\n</" << tagName << ">";
-
+    //Close
+    out << "\n</" << tagName << ">";
+  }
+  else
+  {
+    out << "/>";
+  }
   return out.str();
 }
 
