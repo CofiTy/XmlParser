@@ -39,3 +39,4 @@ $(PARSEDIR)xml.tab.c : $(PARSEDIR)xml.y
 $(EFFACE) :
 	@(cd $(XML_DIR) && $(MAKE) $@)
 	@(cd $(DTD_DIR) && $(MAKE) $@)
+	$(RM) $(RMFLAGS) $(BUILDDIR)*.o $(EXE) core

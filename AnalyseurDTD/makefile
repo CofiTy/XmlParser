@@ -31,4 +31,4 @@ $(PARSEDIR)dtd.tab.c : $(PARSEDIR)dtd.y
 	bison -p dtd --debug --verbose --defines=$(PARSEDIR)dtd.tab.h -o$(PARSEDIR)dtd.tab.c $<
 
 $(EFFACE) :
-	$(RM) $(RMFLAGS) $(BUILDDIR)*.o $(EXE) core $(PARSEDIR)*.output $(PARSEBUILDIR)*.o $(PARSEDIR)*.c $(PARSEDIR)*.h
+	$(RM) $(RMFLAGS) $(BUILDDIR)*.o $(EXE) core $(PARSEDIR)*.output $(PARSEBUILDDIR)*.o $(PARSEDIR)*.c $(PARSEDIR)*.h

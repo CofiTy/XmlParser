@@ -28,4 +28,4 @@ $(PARSEDIR)xml.tab.c : $(PARSEDIR)xml.y
 	bison -p xml --debug --verbose --defines=$(PARSEDIR)xml.tab.h -o$(PARSEDIR)xml.tab.c $<
 
 $(EFFACE) :
-	$(RM) $(RMFLAGS) $(BUILDDIR)*.o $(EXE) core $(PARSEDIR)*.output $(PARSEBUILDIR)*.o $(PARSEDIR)*.c $(PARSEDIR)*.h
+	$(RM) $(RMFLAGS) $(BUILDDIR)*.o $(EXE) core $(PARSEDIR)*.output $(PARSEBUILDDIR)*.o $(PARSEDIR)*.c $(PARSEDIR)*.h
