@@ -13,6 +13,7 @@ class DocumentXML
   char *dtd, *document, *xsl;
   std::string state;
   bool dtdNameIsSet;
+  bool xslNameIsSet;
   NodeList XMLRootNode;
   NodeList XSLRootNode;
   NodeList XHTMLRootNode;
