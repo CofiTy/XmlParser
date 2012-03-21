@@ -17,13 +17,17 @@ DTDValidator::~DTDValidator() {
 }
 
 bool DTDValidator::validate(NodeList & node){
+  bool b = false;
+
   for(list<DTDNode*>::iterator it = this->nodes.begin(); it != this->nodes.end(); it++){
     if((*it)->tagName == node.tagName){
+      b = true;
+
       //Check la liste des fils
       if(!((*it)->validateChildString(node.getChildNodesString()))){
+        cout << "Erreur lors de la validation DTD : Les fils du node " << (*it)->tagName << " ne sont pas valides\n";
         return false;
       }
-
       //Check la liste des attributs
       list<string> * attr = node.getAttributesList();
 
@@ -42,12 +46,18 @@ bool DTDValidator::validate(NodeList & node){
         }
 
         if(!b){//Si on a pas trouvé A dans les attributs possibles du node en cours
+          cout << "Erreur lors de la validation DTD : " << *ita << " n'a pas été trouvé\n";
           return false;
         }
       }
 
       delete attr;
     }
+  }
+
+  if(!b){ //Si on a pas trouvé le node
+    cout << "Erreur lors de la validation DTD : " << node.tagName << " n'a pas été trouvé\n";
+    return false;
   }
 
   return true;

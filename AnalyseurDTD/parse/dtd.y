@@ -1,6 +1,7 @@
 %{
 #include <iostream>
 #include "../src/userClass.h"
+#include "../../AnalyseurXML/src/DocumentXML.h"
 
 using namespace std;
 void yyerror(DTDValidator ** validator, char *msg);
@@ -31,7 +32,7 @@ int yylex(void);
 %%
 
 
-main: dtd_list_opt {*validator = $1};
+main: dtd_list_opt {*validator = $1;};
 
 dtd_list_opt
 : dtd_element dtd_list_opt {$$ = $2; $$->addNode($1);}
@@ -39,16 +40,14 @@ dtd_list_opt
 | {$$ = new DTDValidator();} ;
 
 dtd_element
-: ELEMENT IDENT cp CLOSE	{/*Moises*/$$ = new DTDNode(); $$->tagName = $2; $$->setRegExpChildNodes(*$3);/*Fin Moises*/}
+: ELEMENT IDENT cp CLOSE	{/*Moises*/$$ = new DTDNode(); $$->tagName = $2; $$->setRegExpChildNodes(*$3);/*Fin Moises*/};
 
-;
 dtd_attlist
 : ATTLIST IDENT att_definition_opt CLOSE {
   $$ = new std::pair<std::string, std::list<std::string> >();
   $$->first = $2;
   $$->second = *$3;
-  }
-;
+  };
 
 cp: item card_opt	{$$ = new string(*$1); $$ -> append(*$2);};
 
@@ -119,26 +118,28 @@ default_declaration
 
 void dtdrestart(FILE * );
 
-int parseDTDFile(char* file)
+int parseDTDFile(DocumentXML* doc, DTDValidator * XMLValidator)
 {
   int err;
   
   //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
-  printf("Trying to Parse %s\n", file);
+  printf("Trying to Parse %s\n", doc->dtd);
   FILE * f;
-  if((f = fopen(file, "r")) == NULL)
+  if((f = fopen(doc->dtd, "r")) == NULL)
   {
-    fprintf(stderr, "ERROR: No file named %s\n", file);
+    fprintf(stderr, "ERROR: No file named %s\n", doc->dtd);
   }
   dtdrestart(f);
 
-  DTDValidator * v;
+  DTDValidator * tmp;
 
-  err = dtdparse(&v);
+  err = dtdparse(&tmp);
   fclose(f);
 
-  //v->toString();
+  *XMLValidator = *tmp; //Copie
+
+  //XMLValidator->toString();
   
   if (err != 0) printf("Parse ended with %d error(s)\n", err);
     else  printf("Parse ended with success\n");

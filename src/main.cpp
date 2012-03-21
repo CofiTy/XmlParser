@@ -14,12 +14,14 @@ int main(int argc, char **argv)
   {
     DocumentXML document = DocumentXML(argv[1],"XSLNameFile");
     document.parseXML();
-    cout << document.XMLRootNode.toString() << endl;
+    document.parseDTD();
+
+    //cout << document.XMLRootNode.toString() << endl;
     //document.parseXSL();
   }
   if(argc == 3)
   {
-    parseDTDFile(argv[2]);
+    //parseDTDFile(argv[2]);
   }
   return 0;
 }

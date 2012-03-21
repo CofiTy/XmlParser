@@ -7,7 +7,7 @@ using namespace std;
 
 
 int parseXMLFile(char* file, DocumentXML * doc);
-int parseDTDFile(DocumentXML * doc);
+int parseDTDFile(DocumentXML * doc, DTDValidator * XMLValidator);
 
 
 DocumentXML::DocumentXML(char* document, char* xsl)
@@ -37,10 +37,21 @@ void DocumentXML::parseXML()
 
 void DocumentXML::parseDTD()
 {
+  //TODO supprimer
+  dtd = "AnalyseurDTD/rap3.dtd";
+
   if (dtd == NULL)
     return;
 
+  parseDTDFile(this, &(this->XMLValidator));
+
   this->state = "DTD";
+
+  //TODO supprimer
+  this->XMLValidator.toString();
+
+  //TODO supprimer
+  cout << "C'est bon ? : " << ((this->XMLValidator.validate(this->XMLRootNode)) == true?"OUI":"NON") << "\n";
 
 }
 

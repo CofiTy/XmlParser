@@ -17,9 +17,10 @@ DTDNode::~DTDNode() {
 }
 
 bool DTDNode::validateChildString(const string childString){
+  cout << "Regex text " << childString << " : " << this->regExpChildNodes << "\n";
         return regex_match(childString, this->regExpChildNodes);
 }
 
 void DTDNode::setRegExpChildNodes(string regExpChildNodes){
-        this->regExpChildNodes = regex(regExpChildNodes, boost::regex::basic);
+        this->regExpChildNodes = regex(regExpChildNodes, boost::regex::perl);
 }
