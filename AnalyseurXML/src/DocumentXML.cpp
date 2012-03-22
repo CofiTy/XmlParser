@@ -60,6 +60,7 @@ void DocumentXML::parseXSL()
   parseXMLFile(xsl, this);
 }
 
+<<<<<<< HEAD
 void recursiveTreeSearch(NodeList root)
 {	
 	
@@ -100,6 +101,8 @@ void DocumentXML::processXSLT()
   
 }
 
+=======
+>>>>>>> parent of 9f99bf9... First Processor
 bool DocumentXML::validate()
 {
   //TODO 

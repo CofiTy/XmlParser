@@ -16,7 +16,7 @@ class DocumentXML
   bool xslNameIsSet;
   NodeList XMLRootNode;
   NodeList XSLRootNode;
-  NodeList XMLOutputRootNode;
+  NodeList XHTMLRootNode;
   DTDValidator XMLValidator;
   DTDValidator XSLValidator;
 
@@ -25,9 +25,12 @@ class DocumentXML
   void parseDTD();
   void parseXSL();
   bool validate();
+<<<<<<< HEAD
   
   void processXSLT();
   void setActiveRootNode(NodeList node);
+=======
+>>>>>>> parent of 9f99bf9... First Processor
 
   bool parse();
   void render();
