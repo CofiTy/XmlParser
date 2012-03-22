@@ -49,7 +49,7 @@ special_dec_opt
  ;
 attributs_sp_opt
  : attributs_sp_opt IDENT EQ STRING {
-                                      if(strcmp($2,"xml-stylesheet"))
+                                      if(strcmp($2,"xml-stylesheet") == 0)
                                       {
                                         if(documentXML->xslNameIsSet == false)
                                         {
@@ -77,7 +77,16 @@ declaration
  ;
 
 xml_element
- : start attributs_opt empty_or_content {$$ = $1; $$->attributes = *$2; $$->childNodeList = *$3;}
+ : start attributs_opt empty_or_content {$$ = $1; $$->attributes = *$2; 
+						  $$->childNodeList = *$3; 
+						  if($3 == NULL)
+						  {
+						    $$->isAutoClosing = true;
+						  }
+						  else
+						  {
+						    $$->isAutoClosing = false;
+						  };}
  ;
 start
  : START		{$$ = new NodeList(); $$->tagName = $1->second; $$->nameSpace = $1->first;}

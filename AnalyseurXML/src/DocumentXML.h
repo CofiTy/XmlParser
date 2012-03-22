@@ -16,7 +16,7 @@ class DocumentXML
   bool xslNameIsSet;
   NodeList XMLRootNode;
   NodeList XSLRootNode;
-  NodeList XMLOutputRootNode;
+  NodeList XHTMLRootNode;
   DTDValidator XMLValidator;
   DTDValidator XSLValidator;
 
@@ -25,8 +25,9 @@ class DocumentXML
   void parseDTD();
   void parseXSL();
   bool validate();
-  
+/*  
   void processXSLT();
+*/
   void setActiveRootNode(NodeList node);
   
   
@@ -34,8 +35,12 @@ class DocumentXML
   bool parse();
   void render();
   
- private:
-	void recursiveTreeSearch(Node * root);
+private:
+    void recursiveTreeSearch(Node * root);
+    bool validateXML();
+    bool validateXSL();
+
+    bool validateNode(NodeList & l, DTDValidator & d);
 };
 
 #endif
