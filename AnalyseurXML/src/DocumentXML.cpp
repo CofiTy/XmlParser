@@ -7,12 +7,15 @@ using namespace std;
 
 
 int parseXMLFile(char* file, DocumentXML * doc);
+int parseDTDFile(DocumentXML * doc, DTDValidator * XMLValidator);
 
 
 DocumentXML::DocumentXML(char* document, char* xsl)
 {
-  dtd = NULL;
-  dtdNameIsSet = false;
+  this->dtd = NULL;
+  this->xsl = NULL;
+  this->dtdNameIsSet = false;
+  this->xslNameIsSet = false;
 
   this->document = (char*)malloc(strlen(document)+1);
   strcpy(this->document, document);
@@ -39,7 +42,12 @@ void DocumentXML::parseDTD()
   if (dtd == NULL)
     return;
 
+  parseDTDFile(this, &(this->XMLValidator));
+
   this->state = "DTD";
+
+  //TODO supprimer
+  //this->XMLValidator.toString();
 
 }
 
@@ -51,7 +59,6 @@ void DocumentXML::parseXSL()
   this->state = "XSL";
   parseXMLFile(xsl, this);
 }
-
 
 void recursiveTreeSearch(NodeList root)
 {	
@@ -127,4 +134,38 @@ void DocumentXML::setActiveRootNode(NodeList node)
 void DocumentXML::render()
 {
   
+}
+
+bool DocumentXML::validate()
+{
+  return validateXML() && validateXSL();
+}
+
+bool DocumentXML::validateXML(){
+  return validateNode(this->XMLRootNode, this->XMLValidator);
+}
+
+bool DocumentXML::validateXSL(){
+  //TODO
+  //return validateNode(this->XSLRootNode, this->XSLValidator);
+  return true;
+}
+
+bool DocumentXML::validateNode(NodeList & l, DTDValidator & d){
+  bool b = true;
+  if(d.validate(l)){
+    for(list<Node*>::iterator it = l.childNodeList.begin(); it != l.childNodeList.end(); it++){
+      NodeList *nl = dynamic_cast<NodeList*>(*it);
+      if(nl != NULL){
+        if(!validateNode(*nl, d)){
+          b = false;
+          break;
+        }
+      }
+    }
+  } else {
+    b = false;
+  }
+
+  return b;
 }

@@ -3,6 +3,7 @@
 using namespace std;
 #include "../src/commun.h"
 #include <iostream>
+#include <cstring>
 
 //int yywrap(void);
 void yyerror(DocumentXML *doc, char *msg);
@@ -34,13 +35,29 @@ int yylex(void);
 %%
 
 document
- : declarations_opt xml_element misc_seq_opt {$$ = documentXML; 
-                                              $$->setActiveRootNode(*$2); 
+ : special_dec_opt declarations_opt xml_element misc_seq_opt {$$ = documentXML; 
+                                              $$->setActiveRootNode(*$3); 
                                               if(documentXML->dtdNameIsSet == false)
                                               {
-                                                $$->dtd = $1; 
+                                                $$->dtd = $2; 
                                                 $$->dtdNameIsSet = true;
                                               };} 
+ ;
+special_dec_opt
+ : STARTSPECIAL attributs_sp_opt
+ | /*empty*/
+ ;
+attributs_sp_opt
+ : attributs_sp_opt IDENT EQ STRING {
+                                      if(strcmp($2,"xml-stylesheet") == 0)
+                                      {
+                                        if(documentXML->xslNameIsSet == false)
+                                        {
+                                          documentXML->xsl = $4;
+                                          documentXML->xslNameIsSet = true;
+                                        }
+                                      };}
+ | /* empty */
  ;
 misc_seq_opt
  : misc_seq_opt comment
@@ -60,7 +77,16 @@ declaration
  ;
 
 xml_element
- : start attributs_opt empty_or_content {$$ = $1; $$->attributes = *$2; $$->childNodeList = *$3;}
+ : start attributs_opt empty_or_content {$$ = $1; $$->attributes = *$2; 
+						  $$->childNodeList = *$3; 
+						  if($3 == NULL)
+						  {
+						    $$->isAutoClosing = true;
+						  }
+						  else
+						  {
+						    $$->isAutoClosing = false;
+						  };}
  ;
 start
  : START		{$$ = new NodeList(); $$->tagName = $1->second; $$->nameSpace = $1->first;}

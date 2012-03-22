@@ -11,6 +11,7 @@
 #include <string>
 #include <list>
 #include <boost/regex.hpp> 
+#include <iostream>
 
 using namespace std;
 using namespace boost;
@@ -22,13 +23,12 @@ public:
     virtual ~DTDNode();
 
     string tagName;
-    list<string> attributes;
+
+    regex regExpChildNodes;
     
     bool validateChildString(const string childString);
     void setRegExpChildNodes(const string regExpChildNodes);
 private:
-
-    regex regExpChildNodes;
 
 };
 

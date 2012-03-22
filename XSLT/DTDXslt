@@ -1,17 +1,14 @@
 <!ELEMENT xsl:stylesheet EMPTY>
 <!ATTLIST xsl:stylesheet xmlns:xsl CDATA>
 
-<!ELEMENT xsl:template
- (#PCDATA
-  %instructions;)*
->
+<!ELEMENT xsl:template (#PCDATA)>
 <!ATTLIST xsl:template
-  match CDATA; #IMPLIED
+  match CDATA #IMPLIED
 >
 
 <!ELEMENT xsl:value-of EMPTY>
 <!ATTLIST xsl:value-of
-  select CDATA; #REQUIRED
+  select CDATA #REQUIRED
 >
 
 <!ELEMENT xsl:apply-templates EMPTY>

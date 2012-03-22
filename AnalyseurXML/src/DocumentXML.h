@@ -13,6 +13,7 @@ class DocumentXML
   char *dtd, *document, *xsl;
   std::string state;
   bool dtdNameIsSet;
+  bool xslNameIsSet;
   NodeList XMLRootNode;
   NodeList XSLRootNode;
   NodeList XMLOutputRootNode;
@@ -30,6 +31,12 @@ class DocumentXML
 
   bool parse();
   void render();
+
+private:
+  bool validateXML();
+  bool validateXSL();
+
+  bool validateNode(NodeList & l, DTDValidator & d);
 };
 
 #endif
