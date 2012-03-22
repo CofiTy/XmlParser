@@ -25,12 +25,9 @@ class DocumentXML
   void parseDTD();
   void parseXSL();
   bool validate();
-<<<<<<< HEAD
   
   void processXSLT();
   void setActiveRootNode(NodeList node);
-=======
->>>>>>> parent of 9f99bf9... First Processor
 
   bool parse();
   void render();
