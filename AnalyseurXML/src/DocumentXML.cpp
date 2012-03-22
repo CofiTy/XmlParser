@@ -59,7 +59,7 @@ void DocumentXML::parseXSL()
   this->state = "XSL";
   parseXMLFile(xsl, this);
 }
-
+/*
 void recursiveTreeSearch(NodeList root)
 {	
 	
@@ -99,12 +99,7 @@ void DocumentXML::processXSLT()
   recursiveTreeSearch(XMLRootNode);
   
 }
-
-bool DocumentXML::validate()
-{
-  //TODO 
-  return false;
-}
+*/
 
 bool DocumentXML::parse()
 {
