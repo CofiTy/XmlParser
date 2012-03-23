@@ -66,6 +66,7 @@ void DocumentXML::recursiveTreeSearch(Node *root)
     if((root_cur = dynamic_cast<NodeList*>(root)) == NULL)
     {
         cout << "Root is not a nodelist" << endl;
+        cout << ((Data *)root)->value << endl;
     }
 
 	//Looking for a template!
@@ -81,7 +82,7 @@ void DocumentXML::recursiveTreeSearch(Node *root)
 		&& cur->tagName == "template"
 		&& cur->attributes["match"] == root_cur->tagName)
 		{
-			cout << root_cur->tagName << endl;
+            cout << "Balide : " << root_cur->tagName << endl;
 			break;
 		}
 	}
