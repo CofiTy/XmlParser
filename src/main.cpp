@@ -15,7 +15,9 @@ int main(int argc, char **argv)
   {
       document = DocumentXML(argv[1]);
       document.parseXML();
-      cout << document.XMLRootNode.toString() << endl;
+      document.parseDTD();
+      document.parseXSL();
+      //cout << document.XMLRootNode.toString() << endl;
   }
   else if(argc == 3)
   {

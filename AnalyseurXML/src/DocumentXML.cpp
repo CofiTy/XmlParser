@@ -53,8 +53,9 @@ void DocumentXML::parseDTD()
 
 void DocumentXML::parseXSL()
 {
-  if (xsl == NULL)
+  if (xsl == NULL){
     return;
+  }
 
   this->state = "XSL";
   parseXMLFile(xsl, this);
