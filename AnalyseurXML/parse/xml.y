@@ -125,7 +125,7 @@ int parseXMLFile(char * file, DocumentXML * documentXML)
 {
   int err;
   
-  yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
+  //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
   printf("Trying to Parse %s\n", file);
   FILE * f;
