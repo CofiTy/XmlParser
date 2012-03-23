@@ -5,6 +5,8 @@ using namespace std;
 #include <iostream>
 #include <cstring>
 
+#define YYERROR_VERBOSE
+
 //int yywrap(void);
 void yyerror(DocumentXML *doc, char *msg);
 int yylex(void);

@@ -53,8 +53,9 @@ void DocumentXML::parseDTD()
 
 void DocumentXML::parseXSL()
 {
-  if (xsl == NULL)
+  if (xsl == NULL){
     return;
+  }
 
   this->state = "XSL";
   parseXMLFile(xsl, this);
@@ -65,32 +66,48 @@ void DocumentXML::recursiveTreeSearch(Node *root)
     NodeList *root_cur = NULL;
     if((root_cur = dynamic_cast<NodeList*>(root)) == NULL)
     {
-        cout << "Root is not a nodelist" << endl;
+        cout << "Current XML Node is a Data : " << ((Data *)root)->value << endl;
     }
+    else
+    {
+        cout << "Current XML Node is a NodeList : " << ((NodeList *)root)->tagName << endl;
+        
+        cout << "== Looking for a template in XSL" << endl;
 
-	//Looking for a template!
-	list<Node *>::iterator templateLook;
-	for (templateLook = (XSLRootNode.childNodeList).begin() ; templateLook != (XSLRootNode.childNodeList).end(); templateLook++)
-	{
-        NodeList *cur = NULL;
-        if((cur = dynamic_cast<NodeList *>(*templateLook)) == NULL)
+        list<Node *>::iterator templateLook;
+        for (templateLook = (XSLRootNode.childNodeList).begin() ; templateLook != (XSLRootNode.childNodeList).end(); templateLook++)
         {
-            cout << "Node is not a nodelist..." << endl;
+            NodeList *cur = NULL;
+            if((cur = dynamic_cast<NodeList *>(*templateLook)) == NULL)
+            {
+                cout << "## Current XSL Node is a Data : " << ((Data *)(*templateLook))->value << endl;
+            }
+            else
+            {
+                /**
+                 * Penser à gérer les Slashes!!! avec Strtok
+                 */
+                cout << "## Current XSL Node is a NodeList : " << cur->tagName  << " - " << cur->attributes["match"] << endl;
+                if(cur->nameSpace == "xsl"
+                && cur->tagName == "template"
+                && cur->attributes["match"] == root_cur->tagName)
+                {
+                    
+                    cout << "### Matching Template!"  << endl;
+                    break;
+                }
+                else
+                {
+                    cout << "### No Matching Template, using XML Node..." << endl;
+                }
+            }
         }
-		if(cur->nameSpace == "xsl"
-		&& cur->tagName == "template"
-		&& cur->attributes["match"] == root_cur->tagName)
-		{
-			cout << root_cur->tagName << endl;
-			break;
-		}
-	}
-	
-	list<Node*>::iterator it;
-	for (it = (root_cur->childNodeList).begin() ; it != (root_cur->childNodeList).end(); it++)
-	{
-		recursiveTreeSearch(*it);
-	}
+        list<Node*>::iterator it;
+        for (it = (root_cur->childNodeList).begin() ; it != (root_cur->childNodeList).end(); it++)
+        {
+            recursiveTreeSearch(*it);
+        }
+    }
 }
 
 void DocumentXML::processXSLT()
