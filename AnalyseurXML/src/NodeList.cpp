@@ -77,8 +77,15 @@ string NodeList::toString()
       out << "\n" << (*childIt)->toString();
     }
   
+    out << "\n</";
+
+    if(nameSpace != "")
+    {
+      out << nameSpace << ":";
+    }
+    
     //Close
-    out << "\n</" << tagName << ">";
+    out << tagName << ">";
   }
   else
   {
