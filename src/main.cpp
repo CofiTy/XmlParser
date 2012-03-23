@@ -24,6 +24,12 @@ int main(int argc, char **argv)
       document.parseXML();
       cout << document.XMLRootNode.toString() << endl;
     }
+    else if(strcmp(argv[1], "-a") == 0 || strcmp(argv[1], "--all") == 0)
+    {
+      document = DocumentXML(argv[2]);
+      document.parseXML();
+      cout << document.XMLRootNode.toString() << endl;
+    }
   }
   else if(argc == 4)
   {
