@@ -34,7 +34,7 @@ class DocumentXML
   void render();
   
 private:
-    Node * recursiveTreeSearch(Node * root);
+    list<Node *> * recursiveTreeSearch(Node * root);
     bool validateXML();
     bool validateXSL();
 
