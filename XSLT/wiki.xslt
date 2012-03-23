@@ -1,5 +1,5 @@
 <xsl:stylesheet>
-  <xsl:template match="/persons">
+  <xsl:template match="canard">
     <root>
       <xsl:apply-templates />
     </root>

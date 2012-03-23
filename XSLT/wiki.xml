@@ -1,4 +1,4 @@
-<persons>
+<canard>
   <person username="JS1">
     <name>John</name>
     <family-name>Smith</family-name>
@@ -7,4 +7,4 @@
     <name>Morka</name>
     <family-name>Ismincius</family-name>
   </person>
-</persons>
+</canard>
