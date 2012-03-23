@@ -9,11 +9,14 @@ int parseDTDFile(char* file);
 
 bool validateExt(char* fileName, char* extWanted)
 {
-  char * file, *ext;
-  file = (char *)malloc(strlen(fileName));
-  ext = (char *)malloc(strlen(fileName));
+  char * all, *file, *ext;
+  all = (char*)malloc(strlen(fileName)+1);
+  strcpy(all, fileName);
+
+  file = (char *)malloc(strlen(fileName+1));
+  ext = (char *)malloc(strlen(fileName+1));
         
-  file = strtok(fileName, ".");
+  file = strtok(all, ".");
   ext = strtok(NULL, ".");
         
   return strcmp(ext, extWanted) == 0;

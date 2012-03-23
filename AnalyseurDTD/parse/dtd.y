@@ -129,6 +129,7 @@ int parseDTDFile(DocumentXML* doc, DTDValidator * XMLValidator)
   if((f = fopen(doc->dtd, "r")) == NULL)
   {
     fprintf(stderr, "ERROR: No file named %s\n", doc->dtd);
+    exit(-1);
   }
   dtdrestart(f);
 
