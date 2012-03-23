@@ -9,32 +9,30 @@ int parseDTDFile(char* file);
 
 int main(int argc, char **argv)
 {
+  DocumentXML document = DocumentXML("");
 
-  if(argc == 2)
-  {
-    DocumentXML document = DocumentXML(argv[1]);
-    /*document.parseXML();
-    document.parseDTD();
-
-    if(document.validate()){
-      cout << "XML Validé !!" << endl;
-    } else {
-      cout << "XML NON Validé !!" << endl;
-    }*/
-    /*
-    if(document.parse()){
-      cout << "TOUT OK !!" << endl;
-    } else {
-      cout << "PAS OK =((  !!" << endl;
-    }
-    */
-    document.parseXML();
-    cout << document.XMLRootNode.toString() << endl;
-    //document.parseXSL();
-  }
   if(argc == 3)
   {
-    //parseDTDFile(argv[2]);
+    if(strcmp(argv[1], "-d")  == 0 || strcmp(argv[1], "--dtd") == 0)
+    {
+      document.dtd = argv[2];
+      document.parseDTD();
+    }
+    else if(strcmp(argv[1], "-x") == 0 || strcmp(argv[1], "--xml") == 0)
+    {
+      document = DocumentXML(argv[2]);
+      document.parseXML();
+      cout << document.XMLRootNode.toString() << endl;
+    }
   }
-  return 0;
+  else if(argc == 4)
+  {
+    if(strcmp(argv[1], "-s") == 0 || strcmp(argv[1], "--xsl") == 0)
+    {
+      document = DocumentXML(argv[2], argv[2]);
+      document.parseXML();
+      document.parseXSL();
+    }
+  }
+  return 1;
 }
