@@ -60,12 +60,16 @@ void DocumentXML::parseXSL()
   parseXMLFile(xsl, this);
 }
 
-void DocumentXML::recursiveTreeSearch(Node *root)
+Node * DocumentXML::recursiveTreeSearch(Node *root)
 {	
     NodeList *root_cur = NULL;
+    
     if((root_cur = dynamic_cast<NodeList*>(root)) == NULL)
     {
         cout << "Current XML Node is a Data : " << ((Data *)root)->value << endl;
+        Data *d = (Data *)malloc(sizeof(Data));
+        d->value = ((Data *)root)->value;
+        return d;
     }
     else
     {
@@ -74,6 +78,7 @@ void DocumentXML::recursiveTreeSearch(Node *root)
         cout << "== Looking for a template in XSL" << endl;
 
         list<Node *>::iterator templateLook;
+        bool is_match = false;
         for (templateLook = (XSLRootNode.childNodeList).begin() ; templateLook != (XSLRootNode.childNodeList).end(); templateLook++)
         {
             NodeList *cur = NULL;
@@ -91,16 +96,19 @@ void DocumentXML::recursiveTreeSearch(Node *root)
                 && cur->tagName == "template"
                 && cur->attributes["match"] == root_cur->tagName)
                 {
-                    
                     cout << "### Matching Template!"  << endl;
+                    is_match = true;
                     break;
                 }
-                else
-                {
-                    cout << "### No Matching Template, using XML Node..." << endl;
-                }
+                
             }
         }
+        
+        if(!is_match)
+        {
+            cout << "### No Matching Template, Nothing to Do Here..." << endl;
+        }
+        
         list<Node*>::iterator it;
         for (it = (root_cur->childNodeList).begin() ; it != (root_cur->childNodeList).end(); it++)
         {

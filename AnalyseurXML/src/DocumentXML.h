@@ -29,14 +29,12 @@ class DocumentXML
   void processXSLT();
 
   void setActiveRootNode(NodeList node);
-  
-  
 
   bool parse();
   void render();
   
 private:
-    void recursiveTreeSearch(Node * root);
+    Node * recursiveTreeSearch(Node * root);
     bool validateXML();
     bool validateXSL();
 
