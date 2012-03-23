@@ -78,15 +78,15 @@ declaration
 
 xml_element
  : start attributs_opt empty_or_content {$$ = $1; $$->attributes = *$2; 
-						  $$->childNodeList = *$3; 
-						  if($3 == NULL)
+						  if($3 != NULL)
+              {
+						    $$->isAutoClosing = false;
+                $$->childNodeList = *$3;
+              }
+              else
 						  {
 						    $$->isAutoClosing = true;
-						  }
-						  else
-						  {
-						    $$->isAutoClosing = false;
-						  };}
+						  }}
  ;
 start
  : START		{$$ = new NodeList(); $$->tagName = $1->second; $$->nameSpace = $1->first;}
@@ -98,6 +98,7 @@ empty_or_content
  ;
 close_content_and_end
  : CLOSE	content_opt END {$$ = $2;}
+ | CLOSE	content_opt NSEND {$$ = $2;}
  ;
 attributs_opt
  : attributs_opt IDENT EQ STRING {$$ = $1; (*$$)[$2] = $4;}

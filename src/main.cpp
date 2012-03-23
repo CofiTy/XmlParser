@@ -29,9 +29,10 @@ int main(int argc, char **argv)
   {
     if(strcmp(argv[1], "-s") == 0 || strcmp(argv[1], "--xsl") == 0)
     {
-      document = DocumentXML(argv[2], argv[2]);
+      document = DocumentXML(argv[2], argv[3]);
       document.parseXML();
       document.parseXSL();
+      cout << document.XSLRootNode.toString() << endl;
       document.processXSLT();
     }
   }
