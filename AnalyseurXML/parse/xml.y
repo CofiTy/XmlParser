@@ -35,21 +35,21 @@ int yylex(void);
 %%
 
 document
- : special_dec_opt declarations_opt xml_element misc_seq_opt {$$ = documentXML; 
-                                              $$->setActiveRootNode(*$3); 
+ : misc_seq_opt special_dec_opt misc_seq_opt declarations_opt misc_seq_opt xml_element misc_seq_opt {$$ = documentXML; 
+                                              $$->setActiveRootNode(*$6); 
                                               if(documentXML->dtdNameIsSet == false)
                                               {
-                                                $$->dtd = $2; 
+                                                $$->dtd = $4; 
                                                 $$->dtdNameIsSet = true;
                                               };} 
  ;
 special_dec_opt
- : STARTSPECIAL attributs_sp_opt
+ : STARTSPECIAL attributs_sp_opt CLOSESPECIAL
  | /*empty*/
  ;
 attributs_sp_opt
  : attributs_sp_opt IDENT EQ STRING {
-                                      if(strcmp($2,"xml-stylesheet") == 0)
+                                      if(strcmp($2,"href") == 0)
                                       {
                                         if(documentXML->xslNameIsSet == false)
                                         {
@@ -106,7 +106,7 @@ attributs_opt
  ;
 content_opt 
  : content_opt DATA    {$$ = $1; Data* temp = new Data; temp->value = string($2); $$->push_back((Node*)temp); free($2);} //TODO: Check cast
- | content_opt comment
+ | content_opt comment {$$ = $1;}
  | content_opt xml_element  {$$ = $1; $$->push_back($2);} //TODO: cast?
  | /*empty*/ {$$ = new list<Node*>;}
  ;
@@ -118,13 +118,14 @@ int parseXMLFile(char * file, DocumentXML * documentXML)
 {
   int err;
   
-  //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
+  yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
   printf("Trying to Parse %s\n", file);
   FILE * f;
   if((f = fopen(file, "r")) == NULL)
   {
     fprintf(stderr, "ERROR: No file named %s\n", file);
+    exit(-1);
   }
   xmlrestart(f);
   err = xmlparse(documentXML);
