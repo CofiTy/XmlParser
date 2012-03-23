@@ -44,12 +44,12 @@ document
                                               };} 
  ;
 special_dec_opt
- : STARTSPECIAL attributs_sp_opt
+ : STARTSPECIAL attributs_sp_opt CLOSESPECIAL
  | /*empty*/
  ;
 attributs_sp_opt
  : attributs_sp_opt IDENT EQ STRING {
-                                      if(strcmp($2,"xml-stylesheet") == 0)
+                                      if(strcmp($2,"href") == 0)
                                       {
                                         if(documentXML->xslNameIsSet == false)
                                         {
@@ -118,7 +118,7 @@ int parseXMLFile(char * file, DocumentXML * documentXML)
 {
   int err;
   
-  //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
+  yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
   printf("Trying to Parse %s\n", file);
   FILE * f;
