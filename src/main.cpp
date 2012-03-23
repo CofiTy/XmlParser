@@ -50,6 +50,8 @@ int main(int argc, char **argv)
         {
           document = DocumentXML(argv[1]);
           document.parseXML();
+          document.parseDTD();
+          document.parseXSL();
           cout << document.XMLRootNode.toString() << endl;
         }
         else

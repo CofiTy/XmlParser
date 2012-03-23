@@ -5,6 +5,8 @@ using namespace std;
 #include <iostream>
 #include <cstring>
 
+#define YYERROR_VERBOSE
+
 //int yywrap(void);
 void yyerror(DocumentXML *doc, char *msg);
 int yylex(void);
@@ -29,7 +31,7 @@ int yylex(void);
 %type <nl> xml_element start
 %type <doc> document
 %type <m> attributs_opt
-%type <s> declarations_opt declaration
+%type <s> declarations_opt declaration attributs_sp_opt
 %type <listN> content_opt close_content_and_end empty_or_content
 
 %%
@@ -44,18 +46,23 @@ document
                                               };} 
  ;
 special_dec_opt
- : STARTSPECIAL attributs_sp_opt CLOSESPECIAL
+ : STARTSPECIAL attributs_sp_opt CLOSESPECIAL {
+                                                if(strcmp($1->second.c_str(), "xsl-stylesheet") == 0)
+                                                {
+                                                  if(documentXML->xslNameIsSet == false)
+                                                  {
+                                                    documentXML->xsl = $2;
+                                                    documentXML->xslNameIsSet = true;
+                                                  }
+                                                };}
+                                                  
  | /*empty*/
  ;
 attributs_sp_opt
  : attributs_sp_opt IDENT EQ STRING {
                                       if(strcmp($2,"href") == 0)
                                       {
-                                        if(documentXML->xslNameIsSet == false)
-                                        {
-                                          documentXML->xsl = $4;
-                                          documentXML->xslNameIsSet = true;
-                                        }
+                                        $$ = $4;
                                       };}
  | /* empty */
  ;
