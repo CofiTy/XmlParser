@@ -4,12 +4,17 @@ using namespace std;
 #include "../src/commun.h"
 #include <iostream>
 #include <cstring>
+#include <stack>
 
 #define YYERROR_VERBOSE
 
 //int yywrap(void);
 void yyerror(DocumentXML *doc, char *msg);
 int yylex(void);
+
+extern int xmllineno;
+
+stack<string> s;
 
 %}
 
@@ -120,7 +125,7 @@ int parseXMLFile(char * file, DocumentXML * documentXML)
 {
   int err;
   
-  yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
+  //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
   printf("Trying to Parse %s\n", file);
   FILE * f;
@@ -146,6 +151,6 @@ int parseXMLFile(char * file, DocumentXML * documentXML)
 
 void yyerror(DocumentXML * doc, char *msg)
 {
-  fprintf(stderr, "%s\n", msg);
+  fprintf(stderr, "Error at line : %d : %s\n", xmllineno, msg);
 }
 

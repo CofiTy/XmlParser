@@ -86,7 +86,7 @@ closespecial "?>"{nl}?
  */
 
 %s CONTENT
-
+%option yylineno
 
 %%
 

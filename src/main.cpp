@@ -52,7 +52,7 @@ int main(int argc, char **argv)
           document.parseXML();
           document.parseDTD();
           document.parseXSL();
-          cout << document.XMLRootNode.toString() << endl;
+          //cout << document.XMLRootNode.toString() << endl;
         }
         else
         {

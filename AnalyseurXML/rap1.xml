@@ -1,4 +1,4 @@
-<?xml-stylesheet xml-stylesheet="XSLT/wiki.xslt" ?>
+<?xml-stylesheet href="XSLT/wiki.xslt" ?>
 <!DOCTYPE rapport SYSTEM "AnalyseurDTD/rap1.dtd">
 <rapport>
   <titre>Réaliser un compilateur</titre>
