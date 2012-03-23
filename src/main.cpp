@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 
   if(argc == 2)
   {
-      document = DocumentXML(argv[2]);
+      document = DocumentXML(argv[1]);
       document.parseXML();
       cout << document.XMLRootNode.toString() << endl;
   }
