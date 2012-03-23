@@ -32,6 +32,7 @@ int main(int argc, char **argv)
       document = DocumentXML(argv[2], argv[2]);
       document.parseXML();
       document.parseXSL();
+      document.processXSLT();
     }
   }
   return 1;

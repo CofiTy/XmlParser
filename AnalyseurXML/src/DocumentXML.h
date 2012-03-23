@@ -25,9 +25,9 @@ class DocumentXML
   void parseDTD();
   void parseXSL();
   bool validate();
-/*  
+  
   void processXSLT();
-*/
+
   void setActiveRootNode(NodeList node);
   
   
