@@ -11,7 +11,13 @@ int main(int argc, char **argv)
 {
   DocumentXML document = DocumentXML("");
 
-  if(argc == 3)
+  if(argc == 2)
+  {
+      document = DocumentXML(argv[2]);
+      document.parseXML();
+      cout << document.XMLRootNode.toString() << endl;
+  }
+  else if(argc == 3)
   {
     if(strcmp(argv[1], "-d")  == 0 || strcmp(argv[1], "--dtd") == 0)
     {
