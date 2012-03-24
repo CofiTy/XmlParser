@@ -5,10 +5,10 @@ using namespace std;
 #include <iostream>
 #include <cstring>
 
-//#define YYERROR_VERBOSE
+#define YYERROR_VERBOSE
 
 //int yywrap(void);
-void yyerror(DocumentXML *doc, char *msg);
+void yyerror(DocumentXML *doc, char const *msg);
 int yylex(void);
 
 %}
@@ -149,7 +149,7 @@ int parseXMLFile(char * file, DocumentXML * documentXML)
   return 1;
 }*/
 
-void yyerror(DocumentXML * doc, char *msg)
+void yyerror(DocumentXML * doc, char const *msg)
 {
   fprintf(stderr, "%s\n", msg);
 }
