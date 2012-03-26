@@ -161,12 +161,38 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
             /* TODO: Penser à gérer les Slashes!!! avec Strtok */
             //cout << "### Current XSL TestNode : " << cur->tagName  << " | " << cur->attributes["match"] << endl;
             if(cur->nameSpace == "xsl"
-                && cur->tagName == "template"
-                && cur->attributes["match"] == root_cur->tagName)
+                && cur->tagName == "template")
             {
-                //cout << "### Found a Matching Template!" << endl;
-                templateMatch = cur;
-                break;
+                bool found = false;
+                char *cstr = new char [cur->attributes["match"].size()+1];
+                strcpy(cstr, cur->attributes["match"].c_str());
+                char *pch = strtok (cstr, "/");
+                
+                if(pch == NULL && XMLRootNode.tagName == root_cur->tagName)
+                    found = true;
+                else
+                {
+                    while (pch != NULL)
+                    {
+                        string *test = new string(pch);
+                        if(*test == root_cur->tagName)
+                        {
+                            delete test;
+                            found = true;
+                            break;
+                        }
+                        pch = strtok (NULL, "/");
+                    }
+                }
+
+                delete cstr;
+                if(cur->attributes["match"] == root_cur->tagName 
+                    || found)
+                {
+                    //cout << "### Found a Matching Template!" << endl;
+                    templateMatch = cur;
+                    break;
+                }
             }  
         }
     }
