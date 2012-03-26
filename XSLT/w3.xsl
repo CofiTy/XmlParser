@@ -16,7 +16,7 @@
   </p>
 </xsl:template>
 
-<xsl:template match="name">
+<xsl:template match="title">
   Title: <span style="color:#ff0000">
   <xsl:apply-templates/></span>
   <br />

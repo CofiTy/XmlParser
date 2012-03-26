@@ -67,36 +67,30 @@ NODE_TYPE DocumentXML::recursiveXSLTreeSearch(Node *root, NodeList **toInsert)
     NodeList *cur;
     if((cur = dynamic_cast<NodeList*>(root)) == NULL)
     {
-        cout << "Current XSL Node is a Data: " << ((Data *)root)->value << endl;
+        //cout << "=== Current XSL Node is a Data: " << ((Data *)root)->value << endl;
         Data *d = new Data();
-        d->value = ((Data *)root)->value;
-        
+        d->value = ((Data *)root)->value; 
         (*toInsert)->childNodeList.push_back(d);
         return DATA_NODE;
     }
     else
     {
-        cout << "Current XSL Node is a NodeList: " << cur->tagName << endl;
+        //cout << "=== Current XSL Node is a NodeList: " << cur->tagName << endl;
         
         if(cur->nameSpace == "xsl"
             && cur->tagName == "apply-templates")
         {
-            cout << "### Found an Apply-Templates!" << endl;
-            cout << "ToInsert : " << (*toInsert)->tagName << endl << "#################" << endl << outputRootNode.toString() << endl << "#################" << endl;
+            //cout << "=== Found an Apply-Templates!" << endl;
+            //cout << "=== ParentNode : " << (*toInsert)->tagName << endl;
+            //cout << "=================" << endl << outputRootNode.toString() << endl << "=================" << endl;
             return APPLY_NODE;
         }
         
         NodeList *n;
         if(*toInsert == NULL)
-        {
-            cout << "ToInsert is Null" << endl;
             n = &outputRootNode;
-        }
         else
-        {
-            cout << "ToInsert is not null" << endl;
             n = new NodeList();
-        }
         
         n->tagName = cur->tagName;
         n->nameSpace = cur->nameSpace;
@@ -105,12 +99,13 @@ NODE_TYPE DocumentXML::recursiveXSLTreeSearch(Node *root, NodeList **toInsert)
         
         if(*toInsert != NULL)
         {
-            cout << "ToInsert : " << (*toInsert)->tagName << endl <<"#################" << endl << (*toInsert)->toString() << endl << "#################" << endl;
+            //cout << "=== Inserting Node " << n->tagName << endl;
+            //cout << "=== ParentNode : " << (*toInsert)->tagName << endl;
+            //cout << "=================" << endl << (*toInsert)->toString() << endl << "=================" << endl;
             (*toInsert)->childNodeList.push_back(n);
         }
         
-        toInsert = &n;
-       
+        *toInsert = n;
 
         list<Node*>::iterator child;
         for (child = (cur->childNodeList).begin() ; child != (cur->childNodeList).end(); child++)
@@ -123,7 +118,7 @@ NODE_TYPE DocumentXML::recursiveXSLTreeSearch(Node *root, NodeList **toInsert)
     return END_NODE;
 }
 
-void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList **toInsert)
+void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
 {	
     /* Current Root Converted to NodeList. */
     NodeList *root_cur = NULL;
@@ -140,15 +135,16 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList **toInsert)
      */
     if((root_cur = dynamic_cast<NodeList*>(root)) == NULL)
     {
-        cout << "Current XML Node is a Data : " << ((Data *)root)->value << endl;
+        //cout << "### Current XML Node is a Data : " << ((Data *)root)->value << endl;
         Data *d = new Data();
         d->value = ((Data *)root)->value;
-        cout << "ToInsert : " << *toInsert << endl;
-        (*toInsert)->childNodeList.push_back(d);
+        //cout << "### Parent Node : " << toInsert->tagName << endl;
+        toInsert->childNodeList.push_back(d);
+        return;
     }
 
-    cout << "Current XML Node is a NodeList : " << ((NodeList *)root)->tagName << endl;
-    cout << "== Looking for a template in XSL" << endl;
+    //cout << "### Current XML Node is a NodeList : " << ((NodeList *)root)->tagName << endl;
+    //cout << "### Looking for a template in XSL" << endl;
     
     /**
      * Check XSL To Find a Matching Template.
@@ -158,17 +154,17 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList **toInsert)
         NodeList *cur = NULL;
         if((cur = dynamic_cast<NodeList *>(*templateLook)) == NULL)
         {
-            cout << "## Current XSL Node is a Data : " << ((Data *)(*templateLook))->value << endl;
+            //cout << "### Current XSL Node is a Data (Not Supposed to Happen): " << ((Data *)(*templateLook))->value << endl;
         }
         else
         {
             /* TODO: Penser à gérer les Slashes!!! avec Strtok */
-            cout << "## Current XSL Node : " << cur->tagName  << " - " << cur->attributes["match"] << endl;
+            //cout << "### Current XSL TestNode : " << cur->tagName  << " | " << cur->attributes["match"] << endl;
             if(cur->nameSpace == "xsl"
                 && cur->tagName == "template"
                 && cur->attributes["match"] == root_cur->tagName)
             {
-                cout << "### Matching Template!" << endl;
+                //cout << "### Found a Matching Template!" << endl;
                 templateMatch = cur;
                 break;
             }  
@@ -180,7 +176,7 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList **toInsert)
      */
     if(!templateMatch)
     {
-        cout << "### No Matching Template, Nothing to Do Here..." << endl;
+        //cout << "### No Matching Template, Nothing to Do Here..." << endl;
         list<Node*>::iterator child;
         for (child = (root_cur->childNodeList).begin(); child != (root_cur->childNodeList).end(); child++)
         {
@@ -192,16 +188,24 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList **toInsert)
      */
     else
     {
+        /**
+         * We test want to add each child of the template.
+         */
         list<Node*>::iterator child;
         for (child = (templateMatch->childNodeList).begin(); child != (templateMatch->childNodeList).end(); child++)
         {
-            if(recursiveXSLTreeSearch(*child, toInsert) == APPLY_NODE)
+            NodeList *prev = toInsert;
+            /**
+             * Adding child, if we find an "apply-templates" node, we go recursive.
+             */
+            if(recursiveXSLTreeSearch(*child, &toInsert) == APPLY_NODE)
             {
                 list<Node*>::iterator child_bis;
                 for (child_bis = (root_cur->childNodeList).begin() ; child_bis != (root_cur->childNodeList).end(); child_bis++)
                 {
                     recursiveXMLTreeSearch(*child_bis, toInsert);
                 }
+                toInsert = prev;
             }
         }
     }
@@ -219,8 +223,11 @@ void DocumentXML::processXSLT()
   
   string currentXMLTag = XMLRootNode.tagName;
   
-  NodeList *doublePointer = NULL;
-  recursiveXMLTreeSearch(&XMLRootNode, &doublePointer);
+  recursiveXMLTreeSearch(&XMLRootNode, NULL);
+  
+  //cout << "================ Arbre de Fin ==================" << endl;
+  //cout << outputRootNode.toString() << endl;
+  //cout << "================================================" << endl;
   
 }
 
