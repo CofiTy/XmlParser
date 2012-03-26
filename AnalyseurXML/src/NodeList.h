@@ -15,7 +15,7 @@ public:
   std::string nameSpace;
   std::map<std::string, std::string> attributes;
   std::list<Node*> childNodeList;
-  bool isAutoClosing; 
+  bool isAutoClosing;
  
   std::string getChildNodesString();
   std::list<std::string>* getAttributesList();

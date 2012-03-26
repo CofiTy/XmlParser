@@ -7,6 +7,8 @@
 #include "../../AnalyseurDTD/src/DTDValidator.h"
 #include "commun.h"
 
+enum NODE_TYPE {APPLY_NODE, END_NODE, DATA_NODE};
+
 class DocumentXML
 {
  public:
@@ -16,7 +18,7 @@ class DocumentXML
   bool xslNameIsSet;
   NodeList XMLRootNode;
   NodeList XSLRootNode;
-  NodeList XHTMLRootNode;
+  NodeList outputRootNode;
   DTDValidator XMLValidator;
   DTDValidator XSLValidator;
 
@@ -34,7 +36,9 @@ class DocumentXML
   void render();
   
 private:
-    list<Node *> * recursiveTreeSearch(Node * root);
+    void recursiveXMLTreeSearch(Node * root, NodeList **toInsert);
+    
+    NODE_TYPE recursiveXSLTreeSearch(Node *root, NodeList **toInsert);
     bool validateXML();
     bool validateXSL();
 
