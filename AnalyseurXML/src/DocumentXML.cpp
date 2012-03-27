@@ -181,6 +181,7 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
                             found = true;
                             break;
                         }
+                        delete test;
                         pch = strtok (NULL, "/");
                     }
                 }
