@@ -105,13 +105,17 @@ NODE_TYPE DocumentXML::recursiveXSLTreeSearch(Node *root, NodeList **toInsert)
             (*toInsert)->childNodeList.push_back(n);
         }
         
+        NodeList *prev = *toInsert;
         *toInsert = n;
 
         list<Node*>::iterator child;
         for (child = (cur->childNodeList).begin() ; child != (cur->childNodeList).end(); child++)
         {
-            if(recursiveXSLTreeSearch(*child, toInsert) == APPLY_NODE)
+            NODE_TYPE node_ret = recursiveXSLTreeSearch(*child, toInsert);
+            if(node_ret == APPLY_NODE)
                 return APPLY_NODE;
+            else if(node_ret == DATA_NODE)
+                *toInsert = prev;
         }
     }
     
@@ -252,9 +256,9 @@ void DocumentXML::processXSLT()
   
   recursiveXMLTreeSearch(&XMLRootNode, NULL);
   
-  //cout << "================ Arbre de Fin ==================" << endl;
-  //cout << outputRootNode.toString() << endl;
-  //cout << "================================================" << endl;
+  cout << "================ Arbre de Fin ==================" << endl;
+  cout << outputRootNode.toString() << endl;
+  cout << "================================================" << endl;
   
 }
 
