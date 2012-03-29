@@ -2,8 +2,8 @@
 <!DOCTYPE rapport SYSTEM "Test/rap4.dtd">
 <list_client>
   <client>
-    <nom>Client</nom>
-    <prenom>Client 1</prenom>
+    <nom>Doe</nom>
+    <prenom>John</prenom>
     
     <telephone location="Home">
       666 666 666
@@ -25,8 +25,8 @@
   </client>
   
   <client>
-    <nom>Client</nom>
-    <prenom>Client 2</prenom>
+    <nom>Doe</nom>
+    <prenom>Jane</prenom>
     
     <telephone location="Home">
       666 666 656
