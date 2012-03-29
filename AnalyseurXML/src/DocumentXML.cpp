@@ -1,5 +1,6 @@
 #include <cstring>
 #include <iostream>
+#include <fstream>
 
 #include "DocumentXML.h"
 
@@ -269,16 +270,14 @@ void DocumentXML::processXSLT()
   file = strtok(all, ".");
   ext = strtok(NULL, ".");
   
-  sprintf(xmlTransformedName, "%s_Transformed.xml", file);
+  sprintf(xmlTransformedName, "%s-Transformed.xml", file);
   
-  FILE *f;
-  if((f = fopen(xmlTransformedName, "w")) != NULL)
+  ofstream myfile (xmlTransformedName);
+  if (myfile.is_open())
   {
-    fprintf(f, "%s", outputRootNode.toString().c_str());
-    fclose(f);
-  }else
-  {
-    cout << "ERROR: While opening the file " << xmlTransformedName << endl;
+    cout << xmlTransformedName << endl;
+    myfile << outputRootNode.toString();
+    myfile.close();
   }
 }
 
