@@ -257,7 +257,28 @@ void DocumentXML::processXSLT()
   //cout << "================ Arbre de Fin ==================" << endl;
   //cout << outputRootNode.toString() << endl;
   //cout << "================================================" << endl;
+  char * xmlTransformedName;
+  char *all, *file, *ext;
+  all = (char*)malloc(strlen(document)+1);
+  strcpy(all, document);
+
+  file = (char *)malloc(strlen(document)+1);
+  ext = (char *)malloc(strlen(document)+1);
+        
+  file = strtok(all, ".");
+  ext = strtok(NULL, ".");
   
+  sprintf(xmlTransformedName, "%s_Transformed.xml", file);
+  
+  FILE *f;
+  if((f = fopen(xmlTransformedName, "w")) != NULL)
+  {
+    fprintf(f, "%s", outputRootNode.toString().c_str());
+    fclose(f);
+  }else
+  {
+    cout << "ERROR: While opening the file " << xmlTransformedName << endl;
+  }
 }
 
 
