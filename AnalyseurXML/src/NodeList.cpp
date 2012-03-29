@@ -76,7 +76,7 @@ string NodeList::toString()
   //print all node attributes
   map<string, string>::iterator attIt = attributes.begin();
   for(;attIt != attributes.end(); attIt++){
-    out << " " << attIt->first << "=" << attIt->second;
+    out << " " << attIt->first << "=\"" << attIt->second << "\"";
   }
   if(isAutoClosing == false)
   {
