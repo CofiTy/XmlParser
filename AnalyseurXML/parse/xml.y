@@ -98,6 +98,7 @@ xml_element
       $$->childNodeList = *$3;
     } else {
       $$->isAutoClosing = true;
+      nodesStack.pop();
     }
    };
 
