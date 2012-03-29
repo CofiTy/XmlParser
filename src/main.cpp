@@ -18,7 +18,10 @@ bool validateExt(char* fileName, char* extWanted)
         
   file = strtok(all, ".");
   ext = strtok(NULL, ".");
-        
+  
+  if(ext == NULL)
+    return false;
+
   return strcmp(ext, extWanted) == 0;
 }
 
