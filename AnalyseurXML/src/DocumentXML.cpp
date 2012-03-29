@@ -294,7 +294,7 @@ void DocumentXML::processXSLT()
 
   this->state = "ProcessXSLT";
 
-  string currentXMLTag = XMLRootNode.tagName;
+  //string currentXMLTag = XMLRootNode.tagName;
 
   recursiveXMLTreeSearch(&XMLRootNode, NULL);
 
