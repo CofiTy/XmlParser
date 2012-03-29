@@ -1,7 +1,7 @@
 <xsl:stylesheet>
 <xsl:template match="/">
   <html>
-  	<body>
+  	<body bgcolor="Silver">
   		<xsl:apply-templates/>
   	</body>
   </html>
@@ -9,12 +9,17 @@
 
 <xsl:template match="rapport/titre">
   <h2>
+  <font color="Brown">
     <xsl:apply-templates/> 
+  </font>
   </h2>
 </xsl:template>
 
-<xsl:template match="auteur">
-  <h3>Auteur</h3>
+<xsl:template match="/auteur">
+  <h3>
+  <font color="Purple">Auteur
+  </font>
+  </h3>
   <xsl:apply-templates/>
 </xsl:template>
 
