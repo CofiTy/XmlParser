@@ -264,6 +264,7 @@ void DocumentXML::processXSLT()
 
   file = (char *)malloc(strlen(document)+1);
   ext = (char *)malloc(strlen(document)+1);
+  xmlTransformedName = (char *)malloc(strlen(document)+1);
         
   file = strtok(all, ".");
   ext = strtok(NULL, ".");
