@@ -85,8 +85,7 @@ xml_element
 						  if($3 != NULL)
               {
 						    $$->isAutoClosing = false;
-                //$$->setChildNodeList(*$3);
-                $$->childNodeList = *$3;
+                $$->setChildNodeList(*$3);
               }
               else
 						  {
