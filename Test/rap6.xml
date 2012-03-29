@@ -9,6 +9,6 @@
     <DatabaseDomain>Domain</DatabaseDomain>
     <Administrator EmailAlias="Alias" Extension="333">Admin</Administrator>
     <DatabaseAttributes>att</DatabaseAttributes>
-    <Comments>Comment</Commenst>
+    <Comments>Comment</Comments>
   </DatabaseName>
 </DatabaseInventory>
