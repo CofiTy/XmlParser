@@ -18,7 +18,10 @@ bool validateExt(char* fileName, char* extWanted)
         
   file = strtok(all, ".");
   ext = strtok(NULL, ".");
-        
+  
+  if(ext == NULL)
+    return false;
+
   return strcmp(ext, extWanted) == 0;
 }
 
@@ -49,11 +52,7 @@ int main(int argc, char **argv)
         if(validateExt(argv[1], "xml"))
         {
           document = DocumentXML(argv[1]);
-          document.parseXML();
-          document.parseDTD();
-          document.parseXSL();
-          cout << document.XMLRootNode.toString() << endl;
-          document.processXSLT();
+          document.parse();
         }
         else
         {
@@ -96,10 +95,7 @@ int main(int argc, char **argv)
       if(validateExt(argv[2], "xml"))
       {
         document = DocumentXML(argv[2]);
-        document.parseXML();
-        cout << document.XMLRootNode.toString() << endl;
-        document.parseXSL();
-        document.processXSLT();
+        document.parse();
       }
       else
       {
@@ -121,9 +117,7 @@ int main(int argc, char **argv)
       {
         document = DocumentXML(argv[2], argv[3]);
         document.parseXML();
-        document.parseDTD();
         document.parseXSL();
-        cout << document.XSLRootNode.toString() << endl;
         document.processXSLT();
       }
       else
