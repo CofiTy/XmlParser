@@ -178,14 +178,52 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
                 char *cstr = new char [cur->attributes["match"].size()+1];
                 strcpy(cstr, cur->attributes["match"].c_str());
                 char *pch = strtok (cstr, "/");
-                
                 if(pch == NULL && XMLRootNode.tagName == root_cur->tagName)
                     found = true;
                 else
                 {
+		    /*
+		    cout << "Node : " << root_cur->tagName << endl;
+		    cout << "XSL : " << cur->attributes["match"] << endl;
+		    // Penser à vider la liste
+		    list<string *> list_par;
                     while (pch != NULL)
                     {
+                        //string *test = new string(pch);
+			string *test = new string(pch);
+			cout << "Test : " << *test << endl;
+			list_par.push_back(test);
+			
+                        //if(*test == root_cur->tagName)
+                        //{
+                        //    delete test;
+                        //    found = true;
+                        //    break;
+                        //}
+                        //delete test;
+			
+                        pch = strtok (NULL, "/");
+                    } 
+		    list<string *>::iterator par;
+		    NodeList *cur_test = root_cur;
+		    found = true;
+        	    for (par = list_par.begin(); par != list_par.end(); par++)
+       		    {
+			 cout << "Yahouuu " << **par << " et " << cur_test->tagName << endl;
+           		 if(cur_test == NULL 
+				 || **par != cur_test->tagName)
+			 {
+				 cout << "WHAAAAAAT" << endl;
+				found = false;
+				break;
+			 }
+			 cur_test = cur_test->parent;
+        	    }
+		    */
+		    while (pch != NULL)
+                    {
                         string *test = new string(pch);
+			
                         if(*test == root_cur->tagName)
                         {
                             delete test;
@@ -193,15 +231,17 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
                             break;
                         }
                         delete test;
+			
                         pch = strtok (NULL, "/");
-                    }
+                    } 
+
                 }
 
                 delete cstr;
                 if(cur->attributes["match"] == root_cur->tagName 
                     || found)
                 {
-                    //cout << "### Found a Matching Template!" << endl;
+                    cout << "### Found a Matching Template!" << endl;
                     templateMatch = cur;
                     break;
                 }
@@ -214,7 +254,7 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
      */
     if(!templateMatch)
     {
-        //cout << "### No Matching Template, Nothing to Do Here..." << endl;
+        cout << "### No Matching Template, Nothing to Do Here..." << endl;
         list<Node*>::iterator child;
         for (child = (root_cur->childNodeList).begin(); child != (root_cur->childNodeList).end(); child++)
         {
@@ -226,6 +266,7 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
      */
     else
     {
+	cout << "### Found a template..." << endl;
         /**
          * We test want to add each child of the template.
          */
@@ -261,9 +302,9 @@ void DocumentXML::processXSLT()
   
   recursiveXMLTreeSearch(&XMLRootNode, NULL);
   
-  //cout << "================ Arbre de Fin ==================" << endl;
-  //cout << outputRootNode.toString() << endl;
-  //cout << "================================================" << endl;
+  cout << "================ Arbre de Fin ==================" << endl;
+  cout << outputRootNode.toString() << endl;
+  cout << "================================================" << endl;
 
   ofstream myfile ("XMLOutput.xml"); //TODO: améliorer le nom de ficher
   if (myfile.is_open())
