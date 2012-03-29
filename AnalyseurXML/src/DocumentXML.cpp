@@ -1,5 +1,6 @@
 #include <cstring>
 #include <iostream>
+#include <fstream>
 
 #include "DocumentXML.h"
 
@@ -27,38 +28,45 @@ DocumentXML::DocumentXML(char* document, char* xsl)
 }
 
 //this should set dtd and xsl
-void DocumentXML::parseXML()
+bool DocumentXML::parseXML()
 {
   //document is set
   if (document == NULL)
-    return;
+    return false;
 
   this->state = "XML";
-  parseXMLFile(document, this);
+  
+  if(parseXMLFile(document, this) != 0)
+    return false;
+  
+  return true;
 }
 
-void DocumentXML::parseDTD()
+bool DocumentXML::parseDTD()
 {
   if (dtd == NULL)
-    return;
-
-  parseDTDFile(this, &(this->XMLValidator));
+    return false;
 
   this->state = "DTD";
+  
+  if(parseDTDFile(this, &(this->XMLValidator)) != 0)
+    return false;
 
-  //TODO supprimer
-  //this->XMLValidator.toString();
-
+  return true;
 }
 
-void DocumentXML::parseXSL()
+bool DocumentXML::parseXSL()
 {
   if (xsl == NULL){
-    return;
+    return false;
   }
 
   this->state = "XSL";
-  parseXMLFile(xsl, this);
+  
+  if(parseXMLFile(xsl, this) != 0)
+    return false;
+
+  return true;
 }
 
 NODE_TYPE DocumentXML::recursiveXSLTreeSearch(Node *root, NodeList **toInsert)
@@ -67,7 +75,7 @@ NODE_TYPE DocumentXML::recursiveXSLTreeSearch(Node *root, NodeList **toInsert)
     NodeList *cur;
     if((cur = dynamic_cast<NodeList*>(root)) == NULL)
     {
-        cout << "=== Current XSL Node is a Data: " << ((Data *)root)->value << endl;
+        //cout << "=== Current XSL Node is a Data: " << ((Data *)root)->value << endl;
         Data *d = new Data();
         d->value = ((Data *)root)->value; 
         (*toInsert)->childNodeList.push_back(d);
@@ -227,7 +235,6 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
             NodeList *prev = toInsert;
 
 	    if(toInsert != NULL)
-	    	cout << "&&&&&&&&&&&&&&&&& Parent " << toInsert->tagName << endl;
             /**
              * Adding child, if we find an "apply-templates" node, we go recursive.
              */
@@ -247,32 +254,55 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
 
 void DocumentXML::processXSLT()
 {
-  /*  
-  if (XMLRootNode == NULL
-	|| XSLRootNode == NULL)
-    return;
-*/
-	// Useless
+
   this->state = "ProcessXSLT";
   
   string currentXMLTag = XMLRootNode.tagName;
   
   recursiveXMLTreeSearch(&XMLRootNode, NULL);
   
-  cout << "================ Arbre de Fin ==================" << endl;
-  cout << outputRootNode.toString() << endl;
-  cout << "================================================" << endl;
-  
+  //cout << "================ Arbre de Fin ==================" << endl;
+  //cout << outputRootNode.toString() << endl;
+  //cout << "================================================" << endl;
+
+  ofstream myfile ("XMLOutput.xml"); //TODO: améliorer le nom de ficher
+  if (myfile.is_open())
+  {
+    myfile << outputRootNode.toString();
+    myfile.close();
+  }
 }
 
 
 bool DocumentXML::parse()
 {
-  parseXML();
-  parseDTD();
-  parseXSL();
-
-  return validate();
+  if(parseXML())
+  {
+    if(parseDTD())
+    {
+      if(validate())
+      {
+        cout << "XML Valide par rapport à sa DTD" << endl;
+      }else
+      {
+        cout << "XML Non valide par rapport à sa DTD" << endl;
+      }
+    }else
+    {
+      cout << "Pas de DTD déclarée" << endl;
+    }
+    if(parseXSL())
+    {
+      processXSLT();
+    }else
+    {
+      cout << "Pas de XSL déclaré" << endl;
+    }
+  }else
+  {
+    cout << "Nom de fichier nul" << endl;
+  }
+  return true;
 }
 
 void DocumentXML::setActiveRootNode(NodeList node)
@@ -291,24 +321,13 @@ void DocumentXML::setActiveRootNode(NodeList node)
     }
 }
 
-void DocumentXML::render()
-{
-  
-}
-
 bool DocumentXML::validate()
 {
-  return validateXML() && validateXSL();
+  return validateXML();
 }
 
 bool DocumentXML::validateXML(){
   return validateNode(this->XMLRootNode, this->XMLValidator);
-}
-
-bool DocumentXML::validateXSL(){
-  //TODO
-  //return validateNode(this->XSLRootNode, this->XSLValidator);
-  return true;
 }
 
 bool DocumentXML::validateNode(NodeList & l, DTDValidator & d){
