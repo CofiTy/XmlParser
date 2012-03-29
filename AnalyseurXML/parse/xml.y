@@ -9,7 +9,7 @@ using namespace std;
 #define YYERROR_VERBOSE
 
 //int yywrap(void);
-void yyerror(DocumentXML *doc, char *msg);
+void yyerror(DocumentXML *doc, char const *msg);
 int yylex(void);
 
 extern int xmllineno;
@@ -72,11 +72,8 @@ attributs_sp_opt
  | /* empty */
  ;
 misc_seq_opt
- : misc_seq_opt comment
+ : misc_seq_opt COMMENT
  | /*empty*/
- ;
-comment
- : COMMENT {cout << "# " << $1 << " #";}
  ;
 
 declarations_opt
@@ -85,7 +82,7 @@ declarations_opt
  ;
  
 declaration
- : DOCTYPE IDENT IDENT STRING CLOSE {$$ = $4; cout << "<!Doctype " << $2 << " " << $3 << " " << $4 << ">" << endl;}
+ : DOCTYPE IDENT IDENT STRING CLOSE {$$ = $4;}
  ;
 
 xml_element
@@ -118,7 +115,7 @@ attributs_opt
  ;
 content_opt 
  : content_opt DATA    {$$ = $1; Data* temp = new Data; temp->value = string($2); $$->push_back((Node*)temp); free($2);} //TODO: Check cast
- | content_opt comment {$$ = $1;}
+ | content_opt COMMENT {$$ = $1;}
  | content_opt xml_element  {$$ = $1; $$->push_back($2);} //TODO: cast?
  | /*empty*/ {$$ = new list<Node*>;}
  ;
@@ -154,7 +151,7 @@ int parseXMLFile(char * file, DocumentXML * documentXML)
   return 1;
 }*/
 
-void yyerror(DocumentXML * doc, char *msg)
+void yyerror(DocumentXML * doc, char const *msg)
 {
   fprintf(stderr, "Error at line : %d : %s\n", xmllineno, msg);
 }
