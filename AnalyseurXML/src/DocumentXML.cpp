@@ -181,8 +181,10 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
                 char *pch = strtok (cstr, "/");
                 
                 if(pch == NULL && XMLRootNode.tagName == root_cur->tagName)
+                {
                     found = true;
-                else
+                }
+                else if(pch != NULL)
                 {
                     /*
                     while (pch != NULL)
@@ -199,48 +201,45 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
                     }
                     */
                     
-                    cout << "Node : " << root_cur->tagName << endl;
-                    cout << "XSL : " << cur->attributes["match"] << endl;
+                    //cout << "Node à Tester: " << root_cur->tagName << endl;
+                    //cout << "Template XSL Courant: " << cur->attributes["match"] << endl;
                     // Penser à vider la liste
                     list<string *> list_par;
                     while (pch != NULL)
                     {
-                        //string *test = new string(pch);
                         string *test = new string(pch);
-                        cout << "Test : " << *test << endl;
-                        list_par.push_back(test);
-
-                        //if(*test == root_cur->tagName)
-                        //{
-                        //    delete test;
-                        //    found = true;
-                        //    break;
-                        //}
-                        //delete test;
+                        list_par.push_front(test);
 
                         pch = strtok (NULL, "/");
                     } 
                     list<string *>::iterator par;
                     NodeList *cur_test = root_cur;
+                    
+                    if(root_cur->tagName == "titre" && root_cur->parent != NULL)
+                        cout << cur->parent->tagName << endl;
+                    else if(root_cur->parent == NULL)
+                        cout << "Encore NULL" << endl;
                     found = true;
+                    //cout << "Liste des Noeuds: " << endl;
                     for (par = list_par.begin(); par != list_par.end(); par++)
                     {
-                        cout << "Yahouuu " << **par << " et " << cur_test->tagName << endl;
-                        if(cur_test == NULL 
-                         || **par != cur_test->tagName)
+                        if(cur_test != NULL)
                         {
-                            cout << "WHAAAAAAT" << endl;
-                            found = false;
-                            break;
+                            //cout << " XSL Courant " << **par << " XML Courant " << cur_test->tagName << endl;
+                            if(**par != cur_test->tagName)
+                            {
+                                //cout << "WHAAAAAAT" << endl;
+                                found = false;
+                                break;
+                            }
+                            
+                            cur_test = cur_test->parent;
                         }
-                        cur_test = cur_test->parent;
                     }
-          
                 }
 
                 delete cstr;
-                if(cur->attributes["match"] == root_cur->tagName 
-                    || found)
+                if(found)
                 {
                     //cout << "### Found a Matching Template!" << endl;
                     templateMatch = cur;
