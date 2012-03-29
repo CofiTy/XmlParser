@@ -14,7 +14,7 @@ int yylex(void);
 
 extern int xmllineno;
 
-stack<string> s;
+stack<string> nodesStack;
 
 %}
 
