@@ -16,13 +16,13 @@
   </p>
 </xsl:template>
 
-<xsl:template match="catalog/title">
+<xsl:template match="cd/title">
   Title: <span style="color:#ff0000">
   <xsl:apply-templates/></span>
   <br />
 </xsl:template>
 
-<xsl:template match="catalog/artist">
+<xsl:template match="cd/artist">
   Artist: <span style="color:#00ff00">
   <xsl:apply-templates/></span>
   <br />

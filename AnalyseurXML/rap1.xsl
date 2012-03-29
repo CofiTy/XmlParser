@@ -15,7 +15,7 @@
   </h2>
 </xsl:template>
 
-<xsl:template match="/auteur">
+<xsl:template match="auteur">
   <h3>
   <font color="Purple">
   Auteur
