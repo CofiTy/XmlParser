@@ -53,6 +53,7 @@ int main(int argc, char **argv)
           document.parseDTD();
           document.parseXSL();
           cout << document.XMLRootNode.toString() << endl;
+          document.processXSLT();
         }
         else
         {
@@ -97,6 +98,8 @@ int main(int argc, char **argv)
         document = DocumentXML(argv[2]);
         document.parseXML();
         cout << document.XMLRootNode.toString() << endl;
+        document.parseXSL();
+        document.processXSLT();
       }
       else
       {
@@ -118,6 +121,7 @@ int main(int argc, char **argv)
       {
         document = DocumentXML(argv[2], argv[3]);
         document.parseXML();
+        document.parseDTD();
         document.parseXSL();
         cout << document.XSLRootNode.toString() << endl;
         document.processXSLT();
