@@ -24,6 +24,7 @@ DocumentXML::DocumentXML(char* document, char* xsl)
   if (xsl != NULL){
     this->xsl = (char*)malloc(strlen(xsl)+1);
     strcpy(this->xsl, xsl);
+    this->xslNameIsSet = true;
   }
 }
 
@@ -57,9 +58,8 @@ bool DocumentXML::parseDTD()
 
 bool DocumentXML::parseXSL()
 {
-  if (xsl == NULL){
+  if (xsl == NULL)
     return false;
-  }
 
   this->state = "XSL";
 
