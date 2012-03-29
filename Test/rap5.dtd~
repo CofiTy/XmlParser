@@ -1,7 +1,0 @@
-<!ELEMENT grammaire (nonterminal+)>
-<!ELEMENT nomterminal (nom,transaction+)>
-<!ELEMENT nom (#PCDATA)>
-<!ELEMENT transaction (#PCDATA)>
-<!ATTLIST grammaire
-        nomgrammaire CDATA #IMPLIED
->
