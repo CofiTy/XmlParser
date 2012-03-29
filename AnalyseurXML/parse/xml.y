@@ -53,28 +53,15 @@ document
     };
 
 special_dec_opt
-<<<<<<< HEAD
  : STARTSPECIAL attributs_sp_opt CLOSESPECIAL
    {
-    if(strcmp($1->second.c_str(), "xsl-stylesheet") == 0) {
+    if(strcmp($1->second.c_str(), "?xml-stylesheet") == 0) {
       if(documentXML->xslNameIsSet == false) {
         documentXML->xsl = $2;
         documentXML->xslNameIsSet = true;
       }
     };
    }
-=======
- : STARTSPECIAL attributs_sp_opt CLOSESPECIAL {
-                                                if(strcmp($1->second.c_str(), "?xml-stylesheet") == 0)
-                                                {
-                                                  if(documentXML->xslNameIsSet == false)
-                                                  {
-                                                    documentXML->xsl = $2;
-                                                    documentXML->xslNameIsSet = true;
-                                                  }
-                                                };}
-                                                  
->>>>>>> 4b299ee32c0fc1f07227dc316549eb3c6457b652
  | /*empty*/
  ;
 
@@ -102,32 +89,18 @@ declaration
  ;
 
 xml_element
-<<<<<<< HEAD
  : start attributs_opt empty_or_content
    {
     $$ = $1; $$->attributes = *$2;
     if($3 != NULL) {
       $$->isAutoClosing = false;
-    //$$->setChildNodeList(*$3);
+      $$->setChildNodeList(*$3);
       $$->childNodeList = *$3;
     } else {
       $$->isAutoClosing = true;
     }
    };
 
-=======
- : start attributs_opt empty_or_content {$$ = $1; $$->attributes = *$2; 
-						  if($3 != NULL)
-              {
-						    $$->isAutoClosing = false;
-                $$->setChildNodeList(*$3);
-              }
-              else
-						  {
-						    $$->isAutoClosing = true;
-						  }}
- ;
->>>>>>> 4b299ee32c0fc1f07227dc316549eb3c6457b652
 start
  : START
    {
