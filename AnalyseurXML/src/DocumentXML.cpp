@@ -213,6 +213,8 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
                             cur_test = cur_test->parent;
                         }
                     }
+                    
+                    list_par.clear();
                 }
 
                 delete cstr;
