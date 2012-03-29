@@ -241,7 +241,7 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
         if(cur->attributes["match"] == root_cur->tagName 
             || found)
         {
-          cout << "### Found a Matching Template!" << endl;
+          cout << "### Found a Matching Template! " << cur->attributes["match"] << endl;
           templateMatch = cur;
           break;
         }
