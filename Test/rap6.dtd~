@@ -1,0 +1,10 @@
+<!ELEMENT DatabaseInventory (DatabaseName+)>
+<!ELEMENT DatabaseName (GlobalDatabaseName,OracleSID,DatabaseDomain,Administrator+,DatabaseAttributes, Comments)>
+<!ELEMENT GlobalDatabaseName (#PCDATA)>
+<!ELEMENT OracleSID          (#PCDATA)>
+<!ELEMENT DatabaseDomain     (#PCDATA)>
+<!ELEMENT Administrator      (#PCDATA)>
+<!ELEMENT DatabaseAttributes (#PCDATA)>
+<!ELEMENT Comments           (#PCDATA)>
+<!ATTLIST Administrator       EmailAlias CDATA #IMPLIED>
+<!ATTLIST Administrator       Extension  CDATA #IMPLIED>
