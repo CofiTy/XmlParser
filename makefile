@@ -22,7 +22,7 @@ dtd:
 	@(cd $(DTD_DIR) && $(MAKE))
 
 $(EXE) : xml dtd $(BUILDDIR)main.o
-	$(EDL) $(LDFLAGS) -o $(EXE) $(XML_DIR)$(BUILDDIR)*.o $(XML_DIR)$(PARSEBUILDDIR)*.o $(DTD_DIR)$(BUILDDIR)*.o $(DTD_DIR)$(PARSEBUILDDIR)*.o $(LIBS) $(BUILDDIR)main.o
+	$(EDL) -o $(EXE) $(XML_DIR)$(BUILDDIR)*.o $(XML_DIR)$(PARSEBUILDDIR)*.o $(DTD_DIR)$(BUILDDIR)*.o $(DTD_DIR)$(PARSEBUILDDIR)*.o $(LIBS) $(BUILDDIR)main.o $(LDFLAGS) 
 
 $(BUILDDIR)main.o : $(SRCDIR)main.cpp
 	$(CC) $(CCFLAGS) -c $< -o $@

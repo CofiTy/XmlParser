@@ -21,6 +21,7 @@ public:
   std::list<std::string>* getAttributesList();
   void addAttribute(std::string key, std::string value);
   void appendChild(Node * node);
+  void setChildNodeList(std::list<Node*> children);
   std::string toString();
 };
 

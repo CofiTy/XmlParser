@@ -3,9 +3,12 @@
 
 #include <string>
 
+class NodeList;
+
 class Node
 {
 public:
+  NodeList* parent;
   virtual std::string toString() = 0;
 };
 

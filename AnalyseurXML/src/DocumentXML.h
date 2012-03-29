@@ -23,9 +23,9 @@ class DocumentXML
   DTDValidator XSLValidator;
 
   DocumentXML(char* document, char* xsl = NULL);
-  void parseXML();
-  void parseDTD();
-  void parseXSL();
+  bool parseXML();
+  bool parseDTD();
+  bool parseXSL();
   bool validate();
   
   void processXSLT();
