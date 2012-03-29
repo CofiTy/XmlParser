@@ -47,7 +47,7 @@ document
  ;
 special_dec_opt
  : STARTSPECIAL attributs_sp_opt CLOSESPECIAL {
-                                                if(strcmp($1->second.c_str(), "xsl-stylesheet") == 0)
+                                                if(strcmp($1->second.c_str(), "?xml-stylesheet") == 0)
                                                 {
                                                   if(documentXML->xslNameIsSet == false)
                                                   {

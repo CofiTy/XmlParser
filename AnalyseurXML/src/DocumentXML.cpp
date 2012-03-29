@@ -279,7 +279,13 @@ void DocumentXML::processXSLT()
   //cout << outputRootNode.toString() << endl;
   //cout << "================================================" << endl;
 
-  ofstream myfile ("XMLOutput.xml"); //TODO: améliorer le nom de ficher
+  int length = strlen(document) - 4;
+  char * newName = (char *)malloc(length + 20);
+  strncpy(newName, document, length);
+  strcat(newName, "-Transformed.xml");
+  cout << newName << endl;
+
+  ofstream myfile (newName); //TODO: améliorer le nom de ficher
   if (myfile.is_open())
   {
     myfile << outputRootNode.toString();
