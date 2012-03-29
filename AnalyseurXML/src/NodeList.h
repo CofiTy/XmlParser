@@ -16,12 +16,12 @@ public:
   std::map<std::string, std::string> attributes;
   std::list<Node*> childNodeList;
   bool isAutoClosing;
-  NodeList* parent;
  
   std::string getChildNodesString();
   std::list<std::string>* getAttributesList();
   void addAttribute(std::string key, std::string value);
   void appendChild(Node * node);
+  void setChildNodeList(std::list<Node*> children);
   std::string toString();
 };
 
