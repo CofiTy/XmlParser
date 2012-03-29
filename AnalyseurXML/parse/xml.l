@@ -86,7 +86,7 @@ closespecial "?>"{nl}?
  */
 
 %s CONTENT
-
+%option yylineno
 
 %%
 
@@ -104,8 +104,8 @@ closespecial "?>"{nl}?
 {openspecial}{ws}?{name}	{ BEGIN(INITIAL); char * tmp = word(xmltext); xmllval.en = new ElementName("",tmp); free(tmp); return STARTSPECIAL;}
 {open}{ws}?{name}	{ BEGIN(INITIAL); char * tmp = word(xmltext); xmllval.en = new ElementName("",tmp); free(tmp); return START;}
 {open}{ws}?{nsname}	{ BEGIN(INITIAL); char *tmp1 = nameSpace(xmltext); char * tmp2 = split_namespace(xmltext); xmllval.en = new ElementName(tmp1,tmp2); free(tmp1); free(tmp2); return NSSTART;}
-{open}"/"{name}		{BEGIN(INITIAL); char * tmp = word(xmltext); xmllval.en = new ElementName("",tmp); free(tmp); return END;}
-{open}"/"{nsname}		{BEGIN(INITIAL); char *tmp1 = nameSpace(xmltext); char * tmp2 = split_namespace(xmltext); xmllval.en = new ElementName(tmp1,tmp2); free(tmp1); free(tmp2); return NSEND;}
+{open}"/"{name}		{BEGIN(INITIAL); char * tmp = word(xmltext); xmllval.en = new ElementName("",tmp+1); free(tmp); return END;}
+{open}"/"{nsname}		{BEGIN(INITIAL); char *tmp1 = nameSpace(xmltext); char * tmp2 = split_namespace(xmltext); xmllval.en = new ElementName(tmp1+1,tmp2); free(tmp1); free(tmp2); return NSEND;}
 {comment}		{ xmllval.s = strdup(xmltext); return COMMENT;}
 
 <CONTENT>{ws}?{pcdata}		{ xmllval.s = strdup(skipSpace(xmltext)); return DATA;}

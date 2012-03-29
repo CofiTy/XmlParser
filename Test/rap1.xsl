@@ -17,7 +17,8 @@
 
 <xsl:template match="/auteur">
   <h3>
-  <font color="Purple">Auteur
+    <font color="Purple">
+    Auteur
   </font>
   </h3>
   <xsl:apply-templates/>
