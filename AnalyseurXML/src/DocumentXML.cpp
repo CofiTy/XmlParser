@@ -170,7 +170,6 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
         }
         else
         {
-            /* TODO: Penser à gérer les Slashes!!! avec Strtok */
             //cout << "### Current XSL TestNode : " << cur->tagName  << " | " << cur->attributes["match"] << endl;
             if(cur->nameSpace == "xsl"
                 && cur->tagName == "template")
@@ -186,24 +185,7 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
                 }
                 else if(pch != NULL)
                 {
-                    /*
-                    while (pch != NULL)
-                    {
-                        string *test = new string(pch);
-                        if(*test == root_cur->tagName)
-                        {
-                            delete test;
-                            found = true;
-                            break;
-                        }
-                        delete test;
-                        pch = strtok (NULL, "/");
-                    }
-                    */
-                    
-                    //cout << "Node à Tester: " << root_cur->tagName << endl;
-                    //cout << "Template XSL Courant: " << cur->attributes["match"] << endl;
-                    // Penser à vider la liste
+
                     list<string *> list_par;
                     while (pch != NULL)
                     {
@@ -215,10 +197,6 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
                     list<string *>::iterator par;
                     NodeList *cur_test = root_cur;
                     
-                    if(root_cur->tagName == "titre" && root_cur->parent != NULL)
-                        cout << cur->parent->tagName << endl;
-                    else if(root_cur->parent == NULL)
-                        cout << "Encore NULL" << endl;
                     found = true;
                     //cout << "Liste des Noeuds: " << endl;
                     for (par = list_par.begin(); par != list_par.end(); par++)
@@ -228,7 +206,6 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
                             //cout << " XSL Courant " << **par << " XML Courant " << cur_test->tagName << endl;
                             if(**par != cur_test->tagName)
                             {
-                                //cout << "WHAAAAAAT" << endl;
                                 found = false;
                                 break;
                             }
@@ -298,9 +275,9 @@ void DocumentXML::processXSLT()
 
   recursiveXMLTreeSearch(&XMLRootNode, NULL);
 
-  cout << "================ Arbre de Fin ==================" << endl;
-  cout << outputRootNode.toString() << endl;
-  cout << "================================================" << endl;
+  //cout << "================ Arbre de Fin ==================" << endl;
+  //cout << outputRootNode.toString() << endl;
+  //cout << "================================================" << endl;
 
   ofstream myfile ("XMLOutput.xml"); //TODO: améliorer le nom de ficher
   if (myfile.is_open())
