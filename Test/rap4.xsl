@@ -12,15 +12,20 @@
 </xsl:template>
 
 <xsl:template match="prenom">
-   <h2><xsl:apply-templates/></h2>
+   <font size="22"><xsl:apply-templates/></font>
 </xsl:template>
 
 <xsl:template match="nom">
-   <xsl:apply-templates/>
+   <font size="22"><xsl:apply-templates/></font>
+</xsl:template>
+
+<xsl:template match="telephone">
+   <p><i><xsl:apply-templates/></i></p>
 </xsl:template>
 
 <xsl:template match="produit">
-  <xsl:apply-templates/>
+    <h2>Liste des Produits</h2>
+    <xsl:apply-templates/>
 </xsl:template>
 
 <xsl:template match="id">

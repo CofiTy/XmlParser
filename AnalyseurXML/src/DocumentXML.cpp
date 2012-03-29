@@ -231,7 +231,7 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
      */
     if(!templateMatch)
     {
-        //cout << "### No Matching Template, Nothing to Do Here..." << endl;
+        //cout << "### No Matching Template, Nothing to Do Here..." << root_cur->tagName << " || Parent : " << toInsert->tagName << endl;
         list<Node*>::iterator child;
         for (child = (root_cur->childNodeList).begin(); child != (root_cur->childNodeList).end(); child++)
         {
@@ -260,8 +260,9 @@ void DocumentXML::recursiveXMLTreeSearch(Node *root, NodeList *toInsert)
                 {
                     recursiveXMLTreeSearch(*child_bis, toInsert);
                 }
-                toInsert = prev;
+                
             }
+            toInsert = prev;
         }
     }
 }
