@@ -70,11 +70,11 @@ card_opt: QMARK {$$ = new string("?");}
 choice: OPENPAR choice_list_plus CLOSEPAR   {$$ = new string("("); $$->append(*$2); $$->append(")");};
 choice_list_plus: cp PIPE choice_list {$$ = new string(*$1); $$->append("|"); $$->append(*$3);};
 choice_list: choice_list PIPE cp {$$ = new string(*$1); $$->append("|"); $$->append(*$3);};
-| cp 	{$$ = new string(*$1)};
+| cp 	{$$ = new string(*$1);};
 
 seq: OPENPAR seq_list CLOSEPAR		{$$ = new string("("); $$->append(*$2); $$->append(")");};
 seq_list: seq_list COMMA cp {$$ = new string(*$1); $$->append(*$3);};
-| cp		{$$ = new string(*$1)};
+| cp		{$$ = new string(*$1);};
 
 att_definition_opt
 : att_definition_opt attribute {$$->push_back(*$2);}
