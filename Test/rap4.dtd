@@ -1,0 +1,12 @@
+<!ELEMENT list_client (client*)>
+<!ELEMENT client (nom, prenom, telephone*, produit*)>
+<!ELEMENT nom (#PCDATA)>
+<!ELEMENT prenom (#PCDATA)>
+<!ELEMENT telephone (#PCDATA)>
+<!ELEMENT produit (id,description)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+<!ATTLIST telephone
+	  location CDATA #IMPLIED
+>
+

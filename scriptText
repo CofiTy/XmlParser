@@ -1,0 +1,49 @@
+#!/bin/bash
+# My first script
+
+echo "Validation de plusiers XML-DTD"
+
+echo "Test Validation nº1"
+echo
+echo "Validation d'un fichier XML avec un fichier DTD avec que de declaration d'elements"
+./analyse Test/rap1.xml
+echo
+echo
+
+echo "Test Validation nº2"
+echo
+echo "Validation d'un fichier XML avec un fichier DTD avec que de declaration d'elements et attributes melangés"
+./analyse Test/rap2.xml
+echo
+echo
+
+echo "Test Validation nº3"
+echo
+echo "Validation d'un fichier XML avec un fichier DTD un peu plus complique,avec des cardinalites [0...n] et une structure données en forme d'arbre."
+./analyse Test/rap4.xml
+echo
+echo
+
+echo "Test Validation nº4"
+echo
+echo "Validation d'un fichier XML avec un fichier DTD en simulant l'especification d'un grammaire parmi un fichier XML ."
+./analyse Test/rap5.xml
+echo
+echo
+
+echo "Test Validation nº5"
+echo
+echo "Validation d'un fichier XML avec un fichier DTD pour sauvegarder l'information d'un inventaire de BD ."
+./analyse Test/rap5.xml
+echo
+echo
+
+
+echo "Test Validation nº6"
+echo
+echo "Validation d'un fichier XML avec un fichier DTD inventaire ."
+./analyse Test/parts.xml
+echo
+echo
+
+

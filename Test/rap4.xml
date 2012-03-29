@@ -1,0 +1,51 @@
+<!-- Liste de clients d'un systeme bancaire-->
+<!DOCTYPE rapport SYSTEM "Test/rap4.dtd">
+<list_client>
+  <client>
+    <nom>Client</nom>
+    <prenom>Client 1</prenom>
+    
+    <telephone location="Home">
+      666 666 666
+    </telephone>
+    
+    <telephone location="Work">
+      666 666 665
+    </telephone>
+    
+    <produit>
+      <id>001</id>
+      <description>Produit 1 pour client 1</description>
+    </produit>
+    
+    <produit>
+      <id>002</id>
+      <description>Produit 2 pour client 1</description>
+    </produit> 
+  </client>
+  
+  <client>
+    <nom>Client</nom>
+    <prenom>Client 2</prenom>
+    
+    <telephone location="Home">
+      666 666 656
+    </telephone>
+    
+    <telephone location="Work">
+      666 666 655
+    </telephone>
+    
+    <produit>
+      <id>001</id>
+      <description>Produit 1 pour client 2</description>
+    </produit>
+    
+    <produit>
+      <id>002</id>
+      <description>Produit 2 pour client 2</description>
+    </produit> 
+  </client>
+  
+  
+</list_client>
