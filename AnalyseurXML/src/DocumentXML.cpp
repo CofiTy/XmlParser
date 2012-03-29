@@ -33,10 +33,10 @@ bool DocumentXML::parseXML()
   if (document == NULL)
     return false;
 
+  this->state = "XML";
+  
   if(parseXMLFile(document, this) != 0)
     return false;
-  
-  this->state = "XML";
   
   return true;
 }
@@ -46,10 +46,10 @@ bool DocumentXML::parseDTD()
   if (dtd == NULL)
     return false;
 
+  this->state = "DTD";
+  
   if(parseDTDFile(this, &(this->XMLValidator)) != 0)
     return false;
-
-  this->state = "DTD";
 
   return true;
 }
@@ -60,10 +60,10 @@ bool DocumentXML::parseXSL()
     return false;
   }
 
+  this->state = "XSL";
+  
   if(parseXMLFile(xsl, this) != 0)
     return false;
-
-  this->state = "XSL";
 
   return true;
 }

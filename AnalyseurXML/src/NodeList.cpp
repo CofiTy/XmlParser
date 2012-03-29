@@ -53,9 +53,11 @@ void NodeList::setChildNodeList(list<Node*> children)
 {
   //appedn and set parent on all all child nodes
   list<Node*>::iterator childIt = children.begin();
-  for(;childIt != children.end(); childIt++){
+  for(;childIt != children.end(); childIt++)
+  {
     this->appendChild(dynamic_cast<Node*>(*childIt));
-  } 
+  }
+  
 }
 
 string NodeList::toString()
