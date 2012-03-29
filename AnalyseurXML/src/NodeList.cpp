@@ -45,6 +45,10 @@ void NodeList::addAttribute(string key, string value)
 
 void NodeList::appendChild(Node*  node)
 {
+  if (dynamic_cast<NodeList*>(node) != NULL){
+    dynamic_cast<NodeList*>(node)->parent = this;
+  }
+
   childNodeList.push_back(node);
 }
 

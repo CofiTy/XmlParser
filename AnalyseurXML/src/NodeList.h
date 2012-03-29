@@ -16,6 +16,7 @@ public:
   std::map<std::string, std::string> attributes;
   std::list<Node*> childNodeList;
   bool isAutoClosing;
+  NodeList* parent;
  
   std::string getChildNodesString();
   std::list<std::string>* getAttributesList();
