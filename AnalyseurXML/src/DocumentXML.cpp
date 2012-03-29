@@ -258,24 +258,8 @@ void DocumentXML::processXSLT()
   //cout << "================ Arbre de Fin ==================" << endl;
   //cout << outputRootNode.toString() << endl;
   //cout << "================================================" << endl;
-  /*char * xmlTransformedName;
-  char *all, *file, *ext;
-  all = (char*)malloc(strlen(document)+1);
-  strcpy(all, document);
 
-  file = (char *)malloc(strlen(document)+1);
-  ext = (char *)malloc(strlen(document)+1);
-  xmlTransformedName = (char *)malloc(strlen(document)+1);
-        
-  file = strtok(all, ".");
-  ext = strtok(NULL, ".");
-  
-  sprintf(xmlTransformedName, "%s-Transformed.xml", file);
-  cout << xmlTransformedName << endl;
-  */
-  cout << outputRootNode.toString() << endl;
-  
-  ofstream myfile ("XMLOutput"); //xmlTransformedName);
+  ofstream myfile ("XMLOutput.xml"); //TODO: améliorer le nom de ficher
   if (myfile.is_open())
   {
     myfile << outputRootNode.toString();
