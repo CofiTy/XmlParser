@@ -13,7 +13,7 @@ echo "Validation d'un fichier XML avec un fichier DTD avec que de declaration d'
 if ! diff Test/output1 Test/modelOutput1 > /dev/null ; then
 	echo "Test $courant fail. (sortie)"
 else
-	if ! diff Test/rap1-Transformed.html Test/output1.1 > /dev/null; then
+	if ! diff Test/rap1-Transformed.html Test/modelOutput1.1 > /dev/null; then
 		echo "Test $courant fail. (html genere)"
 	else
 		echo "Test $courant OK."
@@ -44,7 +44,7 @@ echo "Validation d'un fichier XML avec un fichier DTD un peu plus complique,avec
 if ! diff Test/output3 Test/modelOutput3 > /dev/null ; then
 	echo "Test $courant fail. (sortie)"
 else
-	if ! diff Test/rap4-Transformed.html Test/output3.1 > /dev/null; then
+	if ! diff Test/rap4-Transformed.html Test/modelOutput3.1 > /dev/null; then
 		echo "Test $courant fail. (html genere)"
 	else
 		echo "Test $courant OK."

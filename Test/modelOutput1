@@ -1,0 +1,8 @@
+Trying to Parse Test/rap1.xml
+Parse ended with success
+Trying to Parse Test/rap1.dtd
+Parse ended with success
+XML Valide par rapport à sa DTD
+Trying to Parse Test/rap1.xsl
+Parse ended with success
+XSL Processor output in file Test/rap1-Transformed.html
