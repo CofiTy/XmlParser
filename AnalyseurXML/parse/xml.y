@@ -178,6 +178,11 @@ int parseXMLFile(char * file, DocumentXML * documentXML)
   xmlrestart(f);
   err = xmlparse(documentXML);
   fclose(f);
+
+  if(nodesStack.size() != 0){
+    err = 1;
+    cout << "Il reste des balises non fermees !!" << endl;
+  }
   
   if (err != 0) printf("Parse ended with %d error(s)\n", err);
     else  printf("Parse ended with success\n");
