@@ -57,24 +57,23 @@ let "courant=courant+1"
 
 
 echo "Test Validation nº4"
-echo
-echo "Validation d'un fichier XML avec un fichier DTD en simulant l'especification d'un grammaire parmi un fichier XML ."
-./analyse Test/rap5.xml
+echo "Fichier xml non valide."
+./analyse Test/non_valide.xml > Test/output4
 echo
 echo
 
 echo "Test Validation nº5"
 echo
-echo "Validation d'un fichier XML avec un fichier DTD pour sauvegarder l'information d'un inventaire de BD ."
-./analyse Test/rap5.xml
+echo "Fichier ne correspondant pas à la DTD."
+./analyse Test/not_dtd_compliant.xml
 echo
 echo
 
 
 echo "Test Validation nº6"
 echo
-echo "Validation d'un fichier XML avec un fichier DTD inventaire ."
-./analyse Test/parts.xml
+echo "DTD non valide."
+./analyse -d Test/non_valide.dtd
 echo
 echo
 
