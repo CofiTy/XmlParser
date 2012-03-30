@@ -1,28 +1,60 @@
 #!/bin/bash
-# My first script
+
+nbTests=5
+nbOK=0
+courant=1
 
 echo "Validation de plusiers XML-DTD"
+echo
 
 echo "Test Validation nº1"
-echo
 echo "Validation d'un fichier XML avec un fichier DTD avec que de declaration d'elements"
-./analyse Test/rap1.xml
+./analyse Test/rap1.xml > Test/output1
+if ! diff Test/output1 Test/modelOutput1 > /dev/null ; then
+	echo "Test $courant fail. (sortie)"
+else
+	if ! diff Test/rap1-Transformed.html Test/output1.1 > /dev/null; then
+		echo "Test $courant fail. (html genere)"
+	else
+		echo "Test $courant OK."
+		let "nbOK=nbOK+1"
+	fi
+fi
 echo
-echo
+
+let "courant=courant+1"
 
 echo "Test Validation nº2"
-echo
 echo "Validation d'un fichier XML avec un fichier DTD avec que de declaration d'elements et attributes melangés"
-./analyse Test/rap2.xml
-echo
+./analyse Test/rap2.xml > Test/output2
+if ! diff Test/output2 Test/modelOutput2 > /dev/null ; then
+	echo "Test $courant fail. (sortie)"
+else
+	echo "Test $courant OK."
+	let "nbOK=nbOK+1"
+fi
 echo
 
+let "courant=courant+1"
+
+
 echo "Test Validation nº3"
-echo
 echo "Validation d'un fichier XML avec un fichier DTD un peu plus complique,avec des cardinalites [0...n] et une structure données en forme d'arbre."
-./analyse Test/rap4.xml
+./analyse -s Test/rap4.xml Test/rap4.xsl > Test/output3
+if ! diff Test/output3 Test/modelOutput3 > /dev/null ; then
+	echo "Test $courant fail. (sortie)"
+else
+	if ! diff Test/rap4-Transformed.html Test/output3.1 > /dev/null; then
+		echo "Test $courant fail. (html genere)"
+	else
+		echo "Test $courant OK."
+		let "nbOK=nbOK+1"
+	fi
+fi
 echo
-echo
+
+let "courant=courant+1"
+
 
 echo "Test Validation nº4"
 echo
