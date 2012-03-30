@@ -69,6 +69,7 @@ int main(int argc, char **argv)
       {
         document.dtd = argv[2];
         document.parseDTD();
+        document.XMLValidator.toString();
       }
       else
       {
@@ -133,6 +134,38 @@ int main(int argc, char **argv)
       else
       {
         cout << "analyse: fichiers xml puis xsl attendus" << endl;
+        cout << "Pour en savoir plus, faites \"analyse --help\"" << endl;
+      }
+    }
+    else if(strcmp(argv[1], "-d")  == 0 || strcmp(argv[1], "--dtd") == 0)
+    {
+      if(validateExt(argv[2], "xml") && validateExt(argv[3], "dtd"))
+      {
+        document = DocumentXML(argv[2]);
+        if(document.parseXML())
+        {
+          document.dtd = argv[3];
+          if(document.parseDTD())
+          {
+            if(document.validate())
+            {
+              cout << "XML Valide par rapport à sa DTD" << endl;
+            }else
+            {
+              cout << "XML Non valide par rapport à sa DTD" << endl;
+            }
+          }else
+          {
+            cout << "Pas de DTD déclaré" << endl;
+          }
+        }else
+        {
+          cout << "Nom de fichier nul" << endl;
+        }
+      }
+      else
+      {
+        cout << "analyse: fichier xml puis dtd attendus" << endl;
         cout << "Pour en savoir plus, faites \"analyse --help\"" << endl;
       }
     }
