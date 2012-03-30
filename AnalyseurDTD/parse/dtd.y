@@ -138,13 +138,16 @@ int parseDTDFile(DocumentXML* doc, DTDValidator * XMLValidator)
   err = dtdparse(&tmp);
   fclose(f);
 
-  *XMLValidator = *tmp; //Copie
+  if (err != 0)
+  {
+    printf("Parse ended with %d error(s)\n", err);
+  }
+  else  
+  {
+    *XMLValidator = *tmp;
+    printf("Parse ended with success\n");
+  }
 
-  //XMLValidator->toString();
-  
-  if (err != 0) printf("Parse ended with %d error(s)\n", err);
-    else  printf("Parse ended with success\n");
-  
   return err;
 }
 
