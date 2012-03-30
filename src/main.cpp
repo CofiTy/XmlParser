@@ -44,7 +44,8 @@ int main(int argc, char **argv)
       cout << "   -x, --xml FILE    parse le fichier xml" << endl;
       cout << "   -d, --dtd FILE    parse le fichier dtd" << endl;
       cout << "   -a, --all FILE   parse le fichier xml, le valide si une dtd est déclarée dans le fichier et le transforme si une xsl est déclarée" << endl;
-      cout << "   -s, --xsl FILE1 FILE2   parse FILE1 comme ficher XML et le transforme selon la feuille xsl FILE2" << endl;
+      cout << "   -s, --xsl FILE1 FILE2   parse FILE1 comme fichier XML et le transforme selon la feuille xsl FILE2" << endl;
+      cout << "   -d, --dtd FILE1 FILE2   parse FILE1 comme fichier XML et le valide par rapport à la dtd FILE2" << endl;
       cout << "   -h, --help    affiche cette aide" << endl;
     }
     else
