@@ -44,7 +44,8 @@ int main(int argc, char **argv)
       cout << "   -x, --xml FILE    parse le fichier xml" << endl;
       cout << "   -d, --dtd FILE    parse le fichier dtd" << endl;
       cout << "   -a, --all FILE   parse le fichier xml, le valide si une dtd est déclarée dans le fichier et le transforme si une xsl est déclarée" << endl;
-      cout << "   -s, --xsl FILE1 FILE2   parse FILE1 comme ficher XML et le transforme selon la feuille xsl FILE2" << endl;
+      cout << "   -s, --xsl FILE1 FILE2   parse FILE1 comme fichier XML et le transforme selon la feuille xsl FILE2" << endl;
+      cout << "   -d, --dtd FILE1 FILE2   parse FILE1 comme fichier XML et le valide par rapport à la dtd FILE2" << endl;
       cout << "   -h, --help    affiche cette aide" << endl;
     }
     else
@@ -69,6 +70,7 @@ int main(int argc, char **argv)
       {
         document.dtd = argv[2];
         document.parseDTD();
+        document.XMLValidator.toString();
       }
       else
       {
@@ -133,6 +135,38 @@ int main(int argc, char **argv)
       else
       {
         cout << "analyse: fichiers xml puis xsl attendus" << endl;
+        cout << "Pour en savoir plus, faites \"analyse --help\"" << endl;
+      }
+    }
+    else if(strcmp(argv[1], "-d")  == 0 || strcmp(argv[1], "--dtd") == 0)
+    {
+      if(validateExt(argv[2], "xml") && validateExt(argv[3], "dtd"))
+      {
+        document = DocumentXML(argv[2]);
+        if(document.parseXML())
+        {
+          document.dtd = argv[3];
+          if(document.parseDTD())
+          {
+            if(document.validate())
+            {
+              cout << "XML Valide par rapport à sa DTD" << endl;
+            }else
+            {
+              cout << "XML Non valide par rapport à sa DTD" << endl;
+            }
+          }else
+          {
+            cout << "Pas de DTD déclaré" << endl;
+          }
+        }else
+        {
+          cout << "Nom de fichier nul" << endl;
+        }
+      }
+      else
+      {
+        cout << "analyse: fichier xml puis dtd attendus" << endl;
         cout << "Pour en savoir plus, faites \"analyse --help\"" << endl;
       }
     }

@@ -20,7 +20,6 @@ class DocumentXML
   NodeList XSLRootNode;
   NodeList outputRootNode;
   DTDValidator XMLValidator;
-  DTDValidator XSLValidator;
 
   DocumentXML(char* document, char* xsl = NULL);
   bool parseXML();
