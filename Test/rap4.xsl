@@ -20,10 +20,9 @@
 </xsl:template>
 
 <xsl:template match="telephone">
-   <p>
+   <br/>
    <b><font color="#771E10">Tel:</font></b>
    <xsl:apply-templates/>
-   </p>
 </xsl:template>
 
 <xsl:template match="produit">
