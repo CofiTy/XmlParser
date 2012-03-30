@@ -1,0 +1,7 @@
+Trying to Parse Test/not_dtd_compliant.xml
+Parse ended with success
+Trying to Parse Test/rap1.dtd
+Parse ended with success
+Erreur lors de la validation DTD : Les fils du node rapport ne sont pas valides
+XML Non valide par rapport à sa DTD
+Pas de XSL déclaré
