@@ -1,0 +1,7 @@
+Error at line : 19 : Balise fermante non correspondante !! : p au lieu de plop
+Error at line : 20 : Balise fermante non correspondante !! : autreTruc au lieu de section
+Error at line : 26 : Balise fermante non correspondante !! : section au lieu de chapitre
+Error at line : 27 : Balise fermante non correspondante !! : chapitre au lieu de rapport
+Trying to Parse Test/rap7.xml
+Parse ended with 4 error(s)
+Fichier XML incorrect

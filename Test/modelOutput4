@@ -1,5 +1,5 @@
 Error at line : 28 : Balise fermante non correspondante !! : rapport au lieu de auteur
 Trying to Parse Test/non_valide.xml
 Il reste des balises non fermees !!
-Parse ended with 1 error(s)
-Nom de fichier nul
+Parse ended with 2 error(s)
+Fichier XML incorrect

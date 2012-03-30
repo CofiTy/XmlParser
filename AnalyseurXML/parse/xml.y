@@ -16,6 +16,8 @@ extern int xmllineno;
 
 stack<string> nodesStack;
 
+int err = 0;
+
 %}
 
 %parse-param {DocumentXML * documentXML}
@@ -100,7 +102,14 @@ xml_element
       $$->isAutoClosing = true;
       nodesStack.pop();
     }
+   }
+   | start error CLOSE
+   {
+     //printf("reprise erreur\n");
+     nodesStack.pop();
+     err++;
    };
+
 
 start
  : START
@@ -130,7 +139,10 @@ close_content_and_end
   {
     if($3->second != nodesStack.top()) {
       yyerror(NULL, string("Balise fermante non correspondante !! : " + $3->second + " au lieu de " + nodesStack.top()).c_str());
-      return 1;
+      //return 1;
+      YYERROR;
+      $$ = $2;
+      nodesStack.pop();
     } else {
       $$ = $2;
       nodesStack.pop();
@@ -140,7 +152,10 @@ close_content_and_end
  {
    if($3->first + ":" + $3->second != nodesStack.top().c_str()) {
      yyerror(NULL, string("Balise fermante non correspondante !! : " + $3->first + ":" + $3->second + " au lieu de " + nodesStack.top()).c_str());
-     return 1;
+     //return 1;
+     YYERROR;
+     $$ = $2;
+     nodesStack.pop();
    } else {
      $$ = $2;
      nodesStack.pop();
@@ -158,13 +173,13 @@ content_opt
  | content_opt xml_element  {$$ = $1; $$->push_back($2);} //TODO: cast?
  | /*empty*/ {$$ = new list<Node*>;}
  ;
+
 %%
 
 void xmlrestart(FILE * );
 
 int parseXMLFile(char * file, DocumentXML * documentXML)
 {
-  int err;
   
   //yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
 
@@ -176,11 +191,11 @@ int parseXMLFile(char * file, DocumentXML * documentXML)
     exit(-1);
   }
   xmlrestart(f);
-  err = xmlparse(documentXML);
+   xmlparse(documentXML);
   fclose(f);
 
   if(nodesStack.size() != 0){
-    err = 1;
+    err += 1;
     cout << "Il reste des balises non fermees !!" << endl;
   }
   

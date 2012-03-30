@@ -69,8 +69,14 @@ int main(int argc, char **argv)
       if(validateExt(argv[2], "dtd"))
       {
         document.dtd = argv[2];
-        document.parseDTD();
-        document.XMLValidator.toString();
+        if(document.parseDTD())
+	{
+          document.XMLValidator.toString();
+	}
+	else
+	{
+	  cout << "Fichier DTD incorrect" << endl;
+	}
       }
       else
       {
@@ -83,8 +89,14 @@ int main(int argc, char **argv)
       if(validateExt(argv[2], "xml"))
       {
         document = DocumentXML(argv[2]);
-        document.parseXML();
-        cout << document.XMLRootNode.toString() << endl;
+        if(document.parseXML())
+	{
+          cout << document.XMLRootNode.toString() << endl;
+	}
+	else
+	{
+	  cout << "Fichier XML incorrect" << endl;
+	}
       }
       else
       {
@@ -129,7 +141,7 @@ int main(int argc, char **argv)
           }
         }else
         {
-          cout << "Nom de fichier nul" << endl;
+          cout << "Fichier XML incorrect" << endl;
         }
       }
       else
@@ -161,7 +173,7 @@ int main(int argc, char **argv)
           }
         }else
         {
-          cout << "Nom de fichier nul" << endl;
+          cout << "Fichier XML incorrect" << endl;
         }
       }
       else

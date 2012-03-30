@@ -331,7 +331,7 @@ bool DocumentXML::parse()
     }
   }else
   {
-    cout << "Nom de fichier nul" << endl;
+    cout << "Fichier XML incorrect" << endl;
   }
   return true;
 }

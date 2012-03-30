@@ -1,6 +1,5 @@
 #!/bin/bash
 
-nbTests=5
 nbOK=0
 courant=1
 
@@ -83,6 +82,18 @@ echo
 
 let "courant=courant+1"
 
-echo "$nbOK tests passes sur $nbTests ."
+
+echo "Test Validation nº6"
+echo "Recuperation d'erreurs."
+./analyse Test/rap7.xml > Test/output6 2>&1
+if ! diff Test/output6 Test/modelOutput6 > /dev/null 2>&1 ; then
+    echo "Test $courant fail. (sortie)"
+else
+    echo "Test $courant OK."
+    let "nbOK=nbOK+1"
+fi
+echo
+
+echo "$nbOK tests passes sur $courant ."
 
 
