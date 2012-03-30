@@ -58,23 +58,31 @@ let "courant=courant+1"
 
 echo "Test Validation nº4"
 echo "Fichier xml non valide."
-./analyse Test/non_valide.xml > Test/output4
+./analyse Test/non_valide.xml > Test/output4 2>&1 
+if ! diff Test/output4 Test/modelOutput4 > /dev/null 2>&1 ; then
+	echo "Test $courant fail. (sortie)"
+else
+	echo "Test $courant OK."
+	let "nbOK=nbOK+1"
+fi
 echo
-echo
+
+let "courant=courant+1"
+
 
 echo "Test Validation nº5"
-echo
 echo "Fichier ne correspondant pas à la DTD."
-./analyse Test/not_dtd_compliant.xml
-echo
+./analyse Test/not_dtd_compliant.xml > Test/output5 2>&1 
+if ! diff Test/output5 Test/modelOutput5 > /dev/null 2>&1 ; then
+	echo "Test $courant fail. (sortie)"
+else
+	echo "Test $courant OK."
+	let "nbOK=nbOK+1"
+fi
 echo
 
+let "courant=courant+1"
 
-echo "Test Validation nº6"
-echo
-echo "DTD non valide."
-./analyse -d Test/non_valide.dtd
-echo
-echo
+echo "$nbOK tests passes sur $nbTests ."
 
 
