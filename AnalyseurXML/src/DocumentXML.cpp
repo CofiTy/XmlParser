@@ -285,7 +285,9 @@ void DocumentXML::processXSLT()
   int length = strlen(document) - 4;
   char * newName = (char *)malloc(length + 20);
   strncpy(newName, document, length);
+  newName[length] = '\0';
   strcat(newName, "-Transformed.html");
+
   cout << "XSL Processor output in file "<< newName << endl;
 
   ofstream myfile (newName); //TODO: améliorer le nom de ficher
