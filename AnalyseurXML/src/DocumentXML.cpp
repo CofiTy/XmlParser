@@ -116,12 +116,15 @@ NODE_TYPE DocumentXML::recursiveXSLTreeSearch(Node *root, NodeList **toInsert)
         NodeList *prev = *toInsert;
         *toInsert = n;
 
+	NodeList *prevApply = *toInsert;
+
         list<Node*>::iterator child;
         for (child = (cur->childNodeList).begin() ; child != (cur->childNodeList).end(); child++)
         {
             NODE_TYPE node_ret = recursiveXSLTreeSearch(*child, toInsert);
             if(node_ret == APPLY_NODE)
 	    {
+		*toInsert = prevApply;
                 return APPLY_NODE;
 	    }
             else if(node_ret == DATA_NODE)
