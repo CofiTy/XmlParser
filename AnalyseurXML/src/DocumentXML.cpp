@@ -124,7 +124,7 @@ NODE_TYPE DocumentXML::recursiveXSLTreeSearch(Node *root, NodeList **toInsert)
             NODE_TYPE node_ret = recursiveXSLTreeSearch(*child, toInsert);
             if(node_ret == APPLY_NODE)
 	    {
-		*toInsert = prevApply;
+		//*toInsert = prevApply;
                 return APPLY_NODE;
 	    }
             else if(node_ret == DATA_NODE)
